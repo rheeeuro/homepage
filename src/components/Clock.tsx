@@ -1,3 +1,4 @@
+import { useState } from "react";
 import tw from "tailwind-styled-components";
 
 const Container = tw.div`
@@ -8,21 +9,48 @@ items-center
 text-center
 `;
 
-const Date = tw.h1`
+const DateText = tw.h1`
 mx-5
 font-medium
 `;
 
-const Time = tw.h1`
+const TimeText = tw.h1`
 text-xl
 font-extrabold
 `;
 
 export function Clock() {
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+
+  setInterval(() => {
+    const [newDate, newTime] = getNow();
+    setDate(newDate);
+    setTime(newTime);
+  }, 1000);
+
+  const getNow = () => {
+    const now: Date = new Date();
+
+    const month = now.getMonth() + 1; // 월
+    const date = now.getDate(); // 날짜
+    const day = now.getDay(); // 요일
+
+    const minutes = now.getMinutes();
+    const hours = now.getHours();
+
+    return [
+      `${month}/${date}`,
+      `${hours < 10 ? `0${hours}` : hours}:${
+        minutes < 10 ? `0${minutes}` : minutes
+      }`,
+    ];
+  };
+
   return (
     <Container>
-      <Date>5/9</Date>
-      <Time>11:56</Time>
+      <DateText>{date}</DateText>
+      <TimeText>{time}</TimeText>
     </Container>
   );
 }
