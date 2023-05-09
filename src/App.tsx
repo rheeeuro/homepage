@@ -12,18 +12,23 @@ m-0
 flex
 flex-col
 items-center
-bg-orange-200
+relative
+`;
+
+const Content = tw.div`
+w-[80rem]
+h-5/6
 `;
 
 function App() {
   return (
     <Container>
       <Header />
-      <div className="content">
+      <Content>
         <ToDo />
         <Bookmark />
-        <Footer />
-      </div>
+      </Content>
+      <Footer />
     </Container>
   );
 }

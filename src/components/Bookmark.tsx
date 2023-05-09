@@ -1,12 +1,26 @@
+import tw from "tailwind-styled-components";
+import BookmarkItem from "./BookmarkItem";
+
+const Container = tw.div`
+w-full
+p-5
+h-1/6
+flex
+flex-row
+justify-center
+items-center
+`;
+
 export function Bookmark() {
   return (
-    <div className="bookmark">
-      <div className="bookmark-item">123</div>
-      <div className="bookmark-item">123</div>
-      <div className="bookmark-item">123</div>
-      <div className="bookmark-item">123</div>
-      <div className="bookmark-item">123</div>
-    </div>
+    <Container>
+      <BookmarkItem />
+      <BookmarkItem />
+      <BookmarkItem />
+      <BookmarkItem />
+      <BookmarkItem />
+      <BookmarkItem />
+    </Container>
   );
 }
 

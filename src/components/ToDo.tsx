@@ -3,32 +3,40 @@ import ToDoColumn from "./ToDoColumn";
 import ToDoItem from "./ToDoItem";
 
 const Container = tw.div`
+pt-8
 w-full
-h-[7/10]
+h-5/6
 flex
 flex-row
 justify-around
-bg-cyan-800
 `;
 
 export function ToDo() {
   return (
     <Container>
-      <ToDoColumn>
+      <ToDoColumn title={"To Do"}>
+        <ToDoItem />
+        <ToDoItem />
+        <ToDoItem />
+        <ToDoItem />
+        <ToDoItem />
+        <ToDoItem />
+        <ToDoItem />
+        <ToDoItem />
         <ToDoItem />
         <ToDoItem />
         <ToDoItem />
         <ToDoItem />
         <ToDoItem />
       </ToDoColumn>
-      <ToDoColumn>
+      <ToDoColumn title={"In Progress"}>
         <ToDoItem />
         <ToDoItem />
         <ToDoItem />
         <ToDoItem />
         <ToDoItem />
       </ToDoColumn>
-      <ToDoColumn>
+      <ToDoColumn title={"Done"}>
         <ToDoItem />
         <ToDoItem />
         <ToDoItem />

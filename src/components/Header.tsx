@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components";
 import Clock from "./Clock";
 import Search from "./Search";
+import Theme from "./Theme";
 
 const Container = tw.div`
 w-full
@@ -8,7 +9,8 @@ h-12
 flex
 flex-row
 justify-between
-bg-red-400
+items-center
+bg-red-100
 `;
 
 export function Header() {
@@ -16,9 +18,7 @@ export function Header() {
     <Container>
       <Clock />
       <Search />
-      <div className="theme">
-        <button>Change Theme</button>
-      </div>
+      <Theme />
     </Container>
   );
 }
