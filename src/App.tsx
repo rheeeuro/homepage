@@ -1,4 +1,6 @@
 import tw from "tailwind-styled-components";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import "./App.css";
 import Bookmark from "./components/Bookmark";
 import Footer from "./components/Footer";
@@ -24,10 +26,12 @@ function App() {
   return (
     <Container>
       <Header />
-      <Content>
-        <ToDo />
-        <Bookmark />
-      </Content>
+      <DndProvider backend={HTML5Backend}>
+        <Content>
+          <ToDo />
+          <Bookmark />
+        </Content>
+      </DndProvider>
       <Footer />
     </Container>
   );

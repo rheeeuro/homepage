@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, memo } from "react";
+import type { FC } from "react";
+import { useDrag } from "react-dnd";
 import tw from "tailwind-styled-components";
 
 const Container = tw.div`
@@ -27,11 +29,31 @@ const DeleteButton = tw.button`
 text-xs
 `;
 
-export function ToDoItem() {
+interface ToDoItemProps {
+  text: string;
+  type: string;
+}
+
+export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
+  text,
+  type,
+}) {
   const [hover, setHover] = useState<boolean>(false);
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type,
+      item: { text },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging(),
+      }),
+    }),
+    [text, type]
+  );
 
   return (
     <Container
+      ref={drag}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
       onMouseEnter={() => {
         setHover(true);
       }}
@@ -39,12 +61,12 @@ export function ToDoItem() {
         setHover(false);
       }}
     >
-      <ToDoText>dfsdfszdfdfsfssdfsfsdfsfdsfasdasdasdadasdadsdfs</ToDoText>
+      <ToDoText>{text}</ToDoText>
       <DeleteButton style={hover ? { display: "block" } : { display: "none" }}>
         ❌
       </DeleteButton>
     </Container>
   );
-}
+});
 
 export default ToDoItem;

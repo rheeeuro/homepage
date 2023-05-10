@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
+import { useDrop } from "react-dnd";
 import tw from "tailwind-styled-components";
+import { ToDoItem } from "./ToDo";
 
 const Container = tw.div`
 w-1/4
@@ -43,17 +45,51 @@ hover:text-gray-700
 
 interface ToDoColumnProps {
   title: string;
+  setToDoItems: React.Dispatch<React.SetStateAction<ToDoItem[]>>;
+  toDoItems: ToDoItem[];
   children: ReactNode;
 }
 
-export function ToDoColumn({ title, children }: ToDoColumnProps) {
+interface DropProps {
+  text: string;
+}
+
+export function ToDoColumn({
+  title,
+  setToDoItems,
+  toDoItems,
+  children,
+}: ToDoColumnProps) {
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: "todo",
+      drop: (a: DropProps) => {
+        console.log(a.text, title);
+        moveToDo(a.text, title);
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }),
+    [title]
+  );
+
+  const moveToDo = (text: string, dest: string) => {
+    setToDoItems((prev) => [
+      ...prev.filter((item) => item.text !== text),
+      { text: text, column: dest },
+    ]);
+  };
+
   return (
-    <Container>
+    <Container ref={drop}>
       <TitleContainer>
         <Title>{title}</Title>
         <NewButton>New</NewButton>
       </TitleContainer>
-      <Items>{children}</Items>
+      <Items style={isOver ? { backgroundColor: "rgba(0, 0, 0, 0.1)" } : {}}>
+        {children}
+      </Items>
     </Container>
   );
 }
