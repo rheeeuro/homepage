@@ -57,7 +57,11 @@ export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
   );
 
   const deleteToDo = () => {
-    setToDoItems((prev) => prev.filter((item) => item.text !== text));
+    setToDoItems((prev) => {
+      const newOne = prev.filter((item) => item.text !== text);
+      localStorage.setItem("todos", JSON.stringify(newOne));
+      return newOne;
+    });
   };
 
   return (

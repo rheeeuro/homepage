@@ -103,10 +103,14 @@ export function ToDoColumn({
   );
 
   const moveToDo = (text: string, dest: string) => {
-    setToDoItems((prev) => [
-      ...prev.filter((item) => item.text !== text),
-      { text: text, column: dest },
-    ]);
+    setToDoItems((prev) => {
+      const newOne = [
+        ...prev.filter((item) => item.text !== text),
+        { text: text, column: dest },
+      ];
+      localStorage.setItem("todos", JSON.stringify(newOne));
+      return newOne;
+    });
   };
 
   const onChangeNewToDo = (
@@ -120,7 +124,12 @@ export function ToDoColumn({
   };
 
   const confirmNew = () => {
-    setToDoItems((prev) => [...prev, newToDo]);
+    setToDoItems((prev) => {
+      const newOne = [...prev, newToDo];
+      localStorage.setItem("todos", JSON.stringify(newOne));
+      return newOne;
+    });
+
     setNewToDo({
       text: "",
       column: title,
