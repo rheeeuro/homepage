@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { useDrop } from "react-dnd";
 import tw from "tailwind-styled-components";
-import { ToDoItem } from "./ToDo";
+import { ItoDoItem } from "./ToDo";
 
 const Container = tw.div`
 w-1/4
@@ -45,8 +45,8 @@ hover:text-gray-700
 
 interface ToDoColumnProps {
   title: string;
-  setToDoItems: React.Dispatch<React.SetStateAction<ToDoItem[]>>;
-  toDoItems: ToDoItem[];
+  setToDoItems: React.Dispatch<React.SetStateAction<ItoDoItem[]>>;
+  toDoItems: ItoDoItem[];
   children: ReactNode;
 }
 

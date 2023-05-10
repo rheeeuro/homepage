@@ -14,13 +14,13 @@ justify-around
 
 const TODO_COLUMN = ["To Do", "In Progress", "Done"];
 
-export interface ToDoItem {
+export interface ItoDoItem {
   column: string;
   text: string;
 }
 
 export function ToDo() {
-  const [toDoItems, setToDoItems] = useState<ToDoItem[]>([
+  const [toDoItems, setToDoItems] = useState<ItoDoItem[]>([
     { column: "To Do", text: "동해물과" },
     { column: "In Progress", text: "백두산이" },
     { column: "Done", text: "마르고 닳도록" },
