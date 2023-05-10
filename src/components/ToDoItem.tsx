@@ -2,6 +2,7 @@ import { useState, memo } from "react";
 import type { FC } from "react";
 import { useDrag } from "react-dnd";
 import tw from "tailwind-styled-components";
+import { ItoDoItem } from "./ToDo";
 
 const Container = tw.div`
 w-auto
@@ -33,11 +34,15 @@ text-xs
 interface ToDoItemProps {
   text: string;
   type: string;
+  setToDoItems: React.Dispatch<React.SetStateAction<ItoDoItem[]>>;
+  toDoItems: ItoDoItem[];
 }
 
 export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
   text,
   type,
+  setToDoItems,
+  toDoItems,
 }) {
   const [hover, setHover] = useState<boolean>(false);
   const [{ isDragging }, drag] = useDrag(
@@ -51,6 +56,10 @@ export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
     [text, type]
   );
 
+  const deleteToDo = () => {
+    setToDoItems((prev) => prev.filter((item) => item.text !== text));
+  };
+
   return (
     <Container
       ref={drag}
@@ -63,7 +72,10 @@ export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
       }}
     >
       <ToDoText>{text}</ToDoText>
-      <DeleteButton style={hover ? { display: "block" } : { display: "none" }}>
+      <DeleteButton
+        style={hover ? { display: "block" } : { display: "none" }}
+        onClick={deleteToDo}
+      >
         ❌
       </DeleteButton>
     </Container>

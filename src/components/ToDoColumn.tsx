@@ -93,7 +93,6 @@ export function ToDoColumn({
     () => ({
       accept: "todo",
       drop: (a: DropProps) => {
-        console.log(a.text, title);
         moveToDo(a.text, title);
       },
       collect: (monitor) => ({

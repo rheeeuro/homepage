@@ -45,7 +45,12 @@ export function ToDo() {
             {toDoItems
               .filter((item) => item.column === title)
               .map((item, index) => (
-                <ToDoItem text={item.text} type={"todo"} />
+                <ToDoItem
+                  text={item.text}
+                  type={"todo"}
+                  setToDoItems={setToDoItems}
+                  toDoItems={toDoItems}
+                />
               ))}
           </ToDoColumn>
         );
