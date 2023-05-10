@@ -15,6 +15,7 @@ flex-row
 items-center
 justify-between
 bg-slate-400
+shadow-md
 `;
 
 const ToDoText = tw.p`

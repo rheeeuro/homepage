@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useDrop } from "react-dnd";
 import tw from "tailwind-styled-components";
 import { ItoDoItem } from "./ToDo";
@@ -12,6 +12,7 @@ rounded-md
 py-3
 px-1
 bg-blue-100
+shadow-xl
 `;
 
 const Items = tw.div`
@@ -43,6 +44,28 @@ text-gray-500
 hover:text-gray-700
 `;
 
+const NewText = tw.div`
+absolute
+w-11/12
+`;
+
+const NewInput = tw.input`
+absolute
+w-full
+`;
+
+const NewInputButton = tw.div`
+absolute
+right-2
+`;
+
+const NewCancelButton = tw.button`
+mr-2
+`;
+
+const NewConfirmButton = tw.button`
+`;
+
 interface ToDoColumnProps {
   title: string;
   setToDoItems: React.Dispatch<React.SetStateAction<ItoDoItem[]>>;
@@ -60,6 +83,12 @@ export function ToDoColumn({
   toDoItems,
   children,
 }: ToDoColumnProps) {
+  const [adding, setAdding] = useState<boolean>(false);
+  const [newToDo, setNewToDo] = useState<ItoDoItem>({
+    text: "",
+    column: title,
+  });
+  const [confirmEnabled, setConfirmEnabled] = useState<boolean>(false);
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: "todo",
@@ -81,11 +110,56 @@ export function ToDoColumn({
     ]);
   };
 
+  const onChangeNewToDo = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setNewToDo((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    setConfirmEnabled(true);
+  };
+
+  const confirmNew = () => {
+    setToDoItems((prev) => [...prev, newToDo]);
+    setNewToDo({
+      text: "",
+      column: title,
+    });
+    setAdding(false);
+    setConfirmEnabled(false);
+  };
+
   return (
     <Container ref={drop}>
       <TitleContainer>
         <Title>{title}</Title>
-        <NewButton>New</NewButton>
+        {!adding && (
+          <NewButton
+            onClick={() => {
+              setAdding(true);
+            }}
+          >
+            New
+          </NewButton>
+        )}
+        {adding && (
+          <NewText>
+            <NewInput name={"text"} onChange={onChangeNewToDo} />
+            <NewInputButton>
+              <NewCancelButton
+                onClick={() => {
+                  setAdding(false);
+                }}
+              >
+                X
+              </NewCancelButton>
+              <NewConfirmButton onClick={confirmNew} disabled={!confirmEnabled}>
+                V
+              </NewConfirmButton>
+            </NewInputButton>
+          </NewText>
+        )}
       </TitleContainer>
       <Items style={isOver ? { backgroundColor: "rgba(0, 0, 0, 0.1)" } : {}}>
         {children}
