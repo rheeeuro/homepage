@@ -34,19 +34,15 @@ export function Search() {
   };
 
   const confirmSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    if (search === "") e.preventDefault();
+    e.preventDefault();
+    if (search === "") return;
+    window.location.href = `http://www.google.co.kr/search?q=${search}`;
   };
 
   return (
-    <SearchContainer
-      method="get"
-      action="http://www.google.co.kr/search"
-      autoComplete="off"
-      onSubmit={confirmSearch}
-    >
+    <SearchContainer action="" autoComplete="off" onSubmit={confirmSearch}>
       <SearchInput
         type="text"
-        name="q"
         value={search}
         onChange={onChangeSearch}
         placeholder="Google search.."
