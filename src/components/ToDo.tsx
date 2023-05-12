@@ -29,6 +29,7 @@ export function ToDo() {
         setToDoItems(JSON.parse(todosJson));
       }
     }
+    checkData();
     window.addEventListener("storage", checkData);
     return () => {
       window.removeEventListener("storage", checkData);
