@@ -44,7 +44,7 @@ function App() {
       <DndProvider backend={HTML5Backend}>
         <Content>
           <ToDo />
-          {/* <Bookmark /> */}
+          <Bookmark />
         </Content>
       </DndProvider>
       <Footer />

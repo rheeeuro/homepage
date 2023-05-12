@@ -10,6 +10,7 @@ h-2/3
 flex
 flex-row
 justify-around
+mb-24
 `;
 
 const TODO_COLUMN = ["To Do", "In Progress", "Done"];
