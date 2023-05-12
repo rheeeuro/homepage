@@ -25,13 +25,18 @@ h-5/6
 
 function App() {
   useEffect(() => {
-    changeBackgroundImage();
+    function checkBgData() {
+      const bgUrl = localStorage.getItem("bgUrl");
+      if (bgUrl) {
+        document.body.style.backgroundImage = `url('${bgUrl}')`;
+      }
+    }
+    checkBgData();
+    window.addEventListener("storage", checkBgData);
+    return () => {
+      window.removeEventListener("storage", checkBgData);
+    };
   }, []);
-  const changeBackgroundImage = () => {
-    const url =
-      "https://r4.wallpaperflare.com/wallpaper/108/140/869/digital-digital-art-artwork-fantasy-art-drawing-hd-wallpaper-d8b62d28c0f06c48d03c114ec8f2b4aa.jpg";
-    document.body.style.backgroundImage = `url('${url}')`;
-  };
 
   return (
     <Container>
