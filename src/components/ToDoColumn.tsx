@@ -32,7 +32,7 @@ relative
 mb-3
 `;
 
-const Title = tw.h1`
+const Title = tw.h2`
 font-semibold
 text-xl
 w-full

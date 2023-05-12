@@ -9,12 +9,12 @@ items-center
 text-center
 `;
 
-const DateText = tw.h1`
+const DateText = tw.h2`
 mx-5
 font-medium
 `;
 
-const TimeText = tw.h1`
+const TimeText = tw.h2`
 text-xl
 font-extrabold
 `;
