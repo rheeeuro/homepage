@@ -11,7 +11,7 @@ items-center
 rounded-md
 py-3
 px-1
-bg-blue-100
+bg-blue-100/[0.8]
 shadow-xl
 `;
 

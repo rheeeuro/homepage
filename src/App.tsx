@@ -6,6 +6,7 @@ import Bookmark from "./components/Bookmark";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import ToDo from "./components/ToDo";
+import { useEffect } from "react";
 
 const Container = tw.div`
 h-screen
@@ -23,6 +24,15 @@ h-5/6
 `;
 
 function App() {
+  useEffect(() => {
+    changeBackgroundImage();
+  }, []);
+  const changeBackgroundImage = () => {
+    const url =
+      "https://r4.wallpaperflare.com/wallpaper/108/140/869/digital-digital-art-artwork-fantasy-art-drawing-hd-wallpaper-d8b62d28c0f06c48d03c114ec8f2b4aa.jpg";
+    document.body.style.backgroundImage = `url('${url}')`;
+  };
+
   return (
     <Container>
       <Header />
