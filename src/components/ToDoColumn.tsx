@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import tw from "tailwind-styled-components";
 import { ItoDoItem } from "./ToDo";
@@ -23,8 +23,10 @@ overflow-y-scroll
 
 const TitleContainer = tw.div`
 w-full
+h-10
 flex
 flex-col
+justify-center
 items-center
 relative
 mb-3
@@ -33,6 +35,8 @@ mb-3
 const Title = tw.h1`
 font-semibold
 text-xl
+w-full
+text-center
 `;
 
 const NewButton = tw.button`
@@ -44,23 +48,35 @@ text-gray-500
 hover:text-gray-700
 `;
 
-const NewText = tw.div`
+const NewText = tw.form`
 absolute
 w-11/12
+h-full
+flex
+flex-row
+items-center
 `;
 
 const NewInput = tw.input`
 absolute
 w-full
+h-8
+pr-11
+pl-2
+rounded-md
+shadow-sm
 `;
 
 const NewInputButton = tw.div`
 absolute
 right-2
+flex
+flex-row
+justify-center
 `;
 
 const NewCancelButton = tw.button`
-mr-2
+mr-1
 `;
 
 const NewConfirmButton = tw.button`
@@ -102,6 +118,17 @@ export function ToDoColumn({
     [title]
   );
 
+  useEffect(() => {
+    setConfirmEnabled(newToDo.text !== "");
+  }, [newToDo]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      cancelNew();
+    });
+  }, []);
+
   const moveToDo = (text: string, dest: string) => {
     setToDoItems((prev) => {
       const newOne = [
@@ -120,10 +147,21 @@ export function ToDoColumn({
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    setConfirmEnabled(true);
   };
 
-  const confirmNew = () => {
+  const cancelNew = () => {
+    setNewToDo({
+      text: "",
+      column: title,
+    });
+    setAdding(false);
+  };
+
+  const confirmNew = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (newToDo.text === "") return;
+    console.log("a");
     setToDoItems((prev) => {
       const newOne = [...prev, newToDo];
       localStorage.setItem("todos", JSON.stringify(newOne));
@@ -135,7 +173,6 @@ export function ToDoColumn({
       column: title,
     });
     setAdding(false);
-    setConfirmEnabled(false);
   };
 
   return (
@@ -152,18 +189,45 @@ export function ToDoColumn({
           </NewButton>
         )}
         {adding && (
-          <NewText>
-            <NewInput name={"text"} onChange={onChangeNewToDo} />
+          <NewText onSubmit={confirmNew} autoComplete="off">
+            <NewInput
+              name={"text"}
+              onChange={onChangeNewToDo}
+              value={newToDo.text}
+              placeholder="Type new item.."
+            />
             <NewInputButton>
-              <NewCancelButton
-                onClick={() => {
-                  setAdding(false);
-                }}
-              >
-                X
+              <NewCancelButton type="button" onClick={cancelNew}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="red"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </NewCancelButton>
-              <NewConfirmButton onClick={confirmNew} disabled={!confirmEnabled}>
-                V
+              <NewConfirmButton type="submit" disabled={!confirmEnabled}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="green"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4.5 12.75l6 6 9-13.5"
+                  />
+                </svg>
               </NewConfirmButton>
             </NewInputButton>
           </NewText>
