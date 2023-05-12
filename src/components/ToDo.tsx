@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const Container = tw.div`
 pt-8
 w-full
-h-5/6
+h-2/3
 flex
 flex-row
 justify-around

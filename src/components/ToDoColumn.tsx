@@ -8,7 +8,7 @@ w-1/4
 flex
 flex-col
 items-center
-rounded-md
+rounded-xl
 py-3
 px-1
 bg-blue-100/[0.8]
