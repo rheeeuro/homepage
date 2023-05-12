@@ -191,6 +191,7 @@ export function ToDoColumn({
         {adding && (
           <NewText onSubmit={confirmNew} autoComplete="off">
             <NewInput
+              autoFocus
               name={"text"}
               onChange={onChangeNewToDo}
               value={newToDo.text}
