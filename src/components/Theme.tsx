@@ -16,11 +16,13 @@ mr-8
 `;
 
 export function Theme() {
-  const clear = () => {};
+  const clearHistory = () => {
+    window.location.href = "chrome://settings/clearBrowserData";
+  };
 
   return (
     <ThemeButtonContainer>
-      <ClearButton onClick={clear}>
+      <ClearButton onClick={clearHistory}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
