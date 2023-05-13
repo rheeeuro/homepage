@@ -158,7 +158,7 @@ export function ToDoColumn({
   return (
     <Container ref={drop}>
       <TitleContainer>
-        <Title>{title}</Title>
+        <Title>{title.toUpperCase()}</Title>
         {!adding && (
           <NewButton
             onClick={() => {
