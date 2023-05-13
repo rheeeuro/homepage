@@ -66,6 +66,11 @@ export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
   );
 
   const deleteToDo = () => {
+    const confirm = window.confirm(
+      `Are you sure you want to delete [${text}]?`
+    );
+    if (!confirm) return;
+
     setToDoItems((prev) => {
       const newOne = prev.filter((item) => item.text !== text);
       localStorage.setItem("todos", JSON.stringify(newOne));

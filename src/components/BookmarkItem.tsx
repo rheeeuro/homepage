@@ -63,6 +63,12 @@ export function BookmarkItem({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
+
+    const confirm = window.confirm(
+      `Are you sure you want to delete [${title}]?`
+    );
+    if (!confirm) return;
+
     setBookmarkItems((prev) => {
       const newOne = prev.filter(
         (item) => item.title !== title && item.url !== url
