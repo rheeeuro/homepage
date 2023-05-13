@@ -1,4 +1,3 @@
-import { useState } from "react";
 import tw from "tailwind-styled-components";
 
 export const Container = tw.div`
@@ -12,6 +11,7 @@ items-center
 rounded-xl
 cursor-pointer
 relative
+group
 bg-slate-300/70
 `;
 
@@ -19,19 +19,26 @@ const FaviconImage = tw.div`
 w-8
 h-8
 mb-2
+bg-cover
+bg-no-repeat
+bg-center
 `;
+
 const Title = tw.h1`
 `;
 
 const DeleteButton = tw.button`
 absolute
-flex
 justify-center
 items-center
 w-4
 h-4
 top-2
 right-2
+hidden
+group-hover:flex
+stroke-slate-700/70
+hover:stroke-red-700/70
 `;
 
 interface BookmarkItemProps {
@@ -40,9 +47,7 @@ interface BookmarkItemProps {
 }
 
 export function BookmarkItem({ title, url }: BookmarkItemProps) {
-  const [hover, setHover] = useState<boolean>(false);
-
-  const bookmarkLink = () => {
+  const linkToBookmark = () => {
     window.location.href = url;
   };
 
@@ -61,29 +66,14 @@ export function BookmarkItem({ title, url }: BookmarkItemProps) {
   };
 
   return (
-    <Container
-      onClick={bookmarkLink}
-      onMouseEnter={() => {
-        setHover(true);
-      }}
-      onMouseLeave={() => {
-        setHover(false);
-      }}
-    >
-      <FaviconImage
-        className={"bg"}
-        style={{ backgroundImage: `url(${getFaviconUrl()})` }}
-      />
-      <DeleteButton
-        onClick={deleteBookmark}
-        style={hover ? { display: "block" } : { display: "none" }}
-      >
+    <Container onClick={linkToBookmark}>
+      <FaviconImage style={{ backgroundImage: `url(${getFaviconUrl()})` }} />
+      <DeleteButton onClick={deleteBookmark}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke="red"
           className="w-4 h-4"
         >
           <path

@@ -10,7 +10,7 @@ flex
 flex-row
 justify-between
 items-center
-bg-red-100
+bg-slate-50/50
 `;
 
 export function Header() {

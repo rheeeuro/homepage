@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import tw from "tailwind-styled-components";
 
 const SearchContainer = tw.form`
@@ -17,8 +17,7 @@ pl-3
 pr-8
 shadow-md
 rounded-md
-bg-yellow-200
-
+bg-white-200
 `;
 
 const SearchButton = tw.button`
@@ -26,25 +25,21 @@ absolute
 right-2
 `;
 
+interface SearchProps {
+  search: string;
+}
+
 export function Search() {
-  const [search, setSearch] = useState<string>("");
+  const { register, handleSubmit } = useForm<SearchProps>();
 
-  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
-  const confirmSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (search === "") return;
-    window.location.href = `http://www.google.co.kr/search?q=${search}`;
+  const onValid = (data: SearchProps) => {
+    window.location.href = `http://www.google.co.kr/search?q=${data.search}`;
   };
 
   return (
-    <SearchContainer action="" autoComplete="off" onSubmit={confirmSearch}>
+    <SearchContainer onSubmit={handleSubmit(onValid)} autoComplete="off">
       <SearchInput
-        type="text"
-        value={search}
-        onChange={onChangeSearch}
+        {...register("search", { required: true })}
         placeholder="Google search.."
       />
       <SearchButton type="submit">

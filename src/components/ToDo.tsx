@@ -13,7 +13,7 @@ justify-around
 mb-24
 `;
 
-const TODO_COLUMN = ["To Do", "In Progress", "Done"];
+const TODO_COLUMN = ["TO DO", "IN PROGRESS", "DONE"];
 
 export interface ItoDoItem {
   column: string;

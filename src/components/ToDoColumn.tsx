@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import tw from "tailwind-styled-components";
 import { ItoDoItem } from "./ToDo";
+import { useForm } from "react-hook-form";
 
 const Container = tw.div`
 w-1/4
@@ -93,23 +94,23 @@ interface DropProps {
   text: string;
 }
 
+interface NewToDoFormProps {
+  text: string;
+}
+
 export function ToDoColumn({
   title,
   setToDoItems,
   toDoItems,
   children,
 }: ToDoColumnProps) {
+  const { register, handleSubmit, reset } = useForm<NewToDoFormProps>();
   const [adding, setAdding] = useState<boolean>(false);
-  const [newToDo, setNewToDo] = useState<ItoDoItem>({
-    text: "",
-    column: title,
-  });
-  const [confirmEnabled, setConfirmEnabled] = useState<boolean>(false);
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: "todo",
-      drop: (a: DropProps) => {
-        moveToDo(a.text, title);
+      drop: (item: DropProps) => {
+        moveToDo(item.text, title);
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
@@ -119,14 +120,14 @@ export function ToDoColumn({
   );
 
   useEffect(() => {
-    setConfirmEnabled(newToDo.text !== "");
-  }, [newToDo]);
-
-  useEffect(() => {
-    document.addEventListener("keydown", (e) => {
+    function escEvent(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
-      cancelNew();
-    });
+      closeInput();
+    }
+    document.addEventListener("keydown", escEvent);
+    return () => {
+      document.removeEventListener("keydown", escEvent);
+    };
   }, []);
 
   const moveToDo = (text: string, dest: string) => {
@@ -140,39 +141,18 @@ export function ToDoColumn({
     });
   };
 
-  const onChangeNewToDo = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setNewToDo((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const cancelNew = () => {
-    setNewToDo({
-      text: "",
-      column: title,
-    });
+  const closeInput = () => {
+    reset();
     setAdding(false);
   };
 
-  const confirmNew = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (newToDo.text === "") return;
-    console.log("a");
+  const onValid = (data: NewToDoFormProps) => {
     setToDoItems((prev) => {
-      const newOne = [...prev, newToDo];
+      const newOne = [...prev, { column: title, text: data.text }];
       localStorage.setItem("todos", JSON.stringify(newOne));
       return newOne;
     });
-
-    setNewToDo({
-      text: "",
-      column: title,
-    });
-    setAdding(false);
+    closeInput();
   };
 
   return (
@@ -185,20 +165,18 @@ export function ToDoColumn({
               setAdding(true);
             }}
           >
-            New
+            NEW
           </NewButton>
         )}
         {adding && (
-          <NewText onSubmit={confirmNew} autoComplete="off">
+          <NewText onSubmit={handleSubmit(onValid)} autoComplete="off">
             <NewInput
+              {...register("text", { required: true })}
               autoFocus
-              name={"text"}
-              onChange={onChangeNewToDo}
-              value={newToDo.text}
               placeholder="Type new item.."
             />
             <NewInputButton>
-              <NewCancelButton type="button" onClick={cancelNew}>
+              <NewCancelButton type="button" onClick={closeInput}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -214,7 +192,7 @@ export function ToDoColumn({
                   />
                 </svg>
               </NewCancelButton>
-              <NewConfirmButton type="submit" disabled={!confirmEnabled}>
+              <NewConfirmButton type="submit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -234,7 +212,7 @@ export function ToDoColumn({
           </NewText>
         )}
       </TitleContainer>
-      <Items style={isOver ? { backgroundColor: "rgba(0, 0, 0, 0.1)" } : {}}>
+      <Items style={{ backgroundColor: isOver ? "rgba(0, 0, 0, 0.1)" : "" }}>
         {children}
       </Items>
     </Container>

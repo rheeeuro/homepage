@@ -22,16 +22,16 @@ export function Bookmark() {
   const [bookmarkItems, setBookmarkItems] = useState<IBookmarkItem[]>([]);
 
   useEffect(() => {
-    function checkData() {
+    function refreshBookmarkItems() {
       const bookmarkJson = localStorage.getItem("bookmarks");
       if (bookmarkJson) {
         setBookmarkItems(JSON.parse(bookmarkJson));
       }
     }
-    checkData();
-    window.addEventListener("storage", checkData);
+    refreshBookmarkItems();
+    window.addEventListener("storage", refreshBookmarkItems);
     return () => {
-      window.removeEventListener("storage", checkData);
+      window.removeEventListener("storage", refreshBookmarkItems);
     };
   }, []);
 
