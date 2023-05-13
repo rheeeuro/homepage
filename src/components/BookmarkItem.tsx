@@ -1,4 +1,5 @@
 import tw from "tailwind-styled-components";
+import { IBookmarkItem } from "./Bookmark";
 
 export const Container = tw.div`
 w-24
@@ -44,9 +45,16 @@ hover:stroke-red-700/70
 interface BookmarkItemProps {
   title: string;
   url: string;
+  setBookmarkItems: React.Dispatch<React.SetStateAction<IBookmarkItem[]>>;
+  bookmarkItems: IBookmarkItem[];
 }
 
-export function BookmarkItem({ title, url }: BookmarkItemProps) {
+export function BookmarkItem({
+  title,
+  url,
+  setBookmarkItems,
+  bookmarkItems,
+}: BookmarkItemProps) {
   const linkToBookmark = () => {
     window.location.href = url;
   };
@@ -55,14 +63,24 @@ export function BookmarkItem({ title, url }: BookmarkItemProps) {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
+    setBookmarkItems((prev) => {
+      const newOne = prev.filter(
+        (item) => item.title !== title && item.url !== url
+      );
+      localStorage.setItem("bookmarks", JSON.stringify(newOne));
+      return newOne;
+    });
   };
 
   const getFaviconUrl = () => {
     const [, hostname] = url.split("https://");
-    return `https://${hostname.slice(
-      0,
-      hostname.lastIndexOf("/")
-    )}/favicon.ico`;
+    const lastIndex = hostname.lastIndexOf("/");
+    let rootUrl = hostname;
+    if (lastIndex !== -1) {
+      rootUrl = hostname.slice(0, hostname.lastIndexOf("/"));
+    }
+
+    return `https://${rootUrl}/favicon.ico`;
   };
 
   return (

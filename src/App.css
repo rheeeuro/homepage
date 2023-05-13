@@ -6,6 +6,7 @@ body {
   scrollbar-width: none; /* Firefox */
   margin: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 body {
   -webkit-user-select: none;
