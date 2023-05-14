@@ -1,59 +1,16 @@
 import tw from "tailwind-styled-components";
 import { IBookmarkItem } from "./Bookmark";
 
-export const Container = tw.div`
-w-24
-h-24
-m-5
-flex
-flex-col
-justify-center
-items-center
-rounded-xl
-cursor-pointer
-relative
-group
-bg-slate-300/70
-`;
-
-const FaviconImage = tw.div`
-w-8
-h-8
-mb-2
-bg-cover
-bg-no-repeat
-bg-center
-`;
-
-const Title = tw.h1`
-`;
-
-const DeleteButton = tw.button`
-absolute
-justify-center
-items-center
-w-4
-h-4
-top-2
-right-2
-hidden
-group-hover:flex
-stroke-slate-700/70
-hover:stroke-red-700/70
-`;
-
 interface BookmarkItemProps {
   title: string;
   url: string;
   setBookmarkItems: React.Dispatch<React.SetStateAction<IBookmarkItem[]>>;
-  bookmarkItems: IBookmarkItem[];
 }
 
 export function BookmarkItem({
   title,
   url,
   setBookmarkItems,
-  bookmarkItems,
 }: BookmarkItemProps) {
   const linkToBookmark = () => {
     window.location.href = url;
@@ -111,5 +68,46 @@ export function BookmarkItem({
     </Container>
   );
 }
+
+export const Container = tw.div`
+w-24
+h-24
+m-5
+flex
+flex-col
+justify-center
+items-center
+rounded-xl
+cursor-pointer
+relative
+group
+bg-slate-300/70
+`;
+
+const FaviconImage = tw.div`
+w-8
+h-8
+mb-2
+bg-cover
+bg-no-repeat
+bg-center
+`;
+
+const Title = tw.h1`
+`;
+
+const DeleteButton = tw.button`
+absolute
+justify-center
+items-center
+w-4
+h-4
+top-2
+right-2
+hidden
+group-hover:flex
+stroke-slate-700/70
+hover:stroke-red-700/70
+`;
 
 export default BookmarkItem;

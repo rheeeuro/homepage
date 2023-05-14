@@ -8,21 +8,6 @@ import Header from "./components/Header";
 import ToDo from "./components/ToDo";
 import { useEffect } from "react";
 
-const Container = tw.div`
-h-screen
-w-screen
-m-0
-flex
-flex-col
-items-center
-relative
-`;
-
-const Content = tw.div`
-w-[80rem]
-h-5/6
-`;
-
 function App() {
   useEffect(() => {
     function checkBgData() {
@@ -51,5 +36,20 @@ function App() {
     </Container>
   );
 }
+
+const Container = tw.div`
+h-screen
+w-screen
+m-0
+flex
+flex-col
+items-center
+relative
+`;
+
+const Content = tw.div`
+w-[80rem]
+h-5/6
+`;
 
 export default App;

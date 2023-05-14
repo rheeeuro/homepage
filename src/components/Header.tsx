@@ -3,16 +3,6 @@ import Clock from "./Clock";
 import Search from "./Search";
 import Theme from "./Theme";
 
-const Container = tw.div`
-w-full
-h-12
-flex
-flex-row
-justify-between
-items-center
-bg-slate-50/50
-`;
-
 export function Header() {
   return (
     <Container>
@@ -22,5 +12,15 @@ export function Header() {
     </Container>
   );
 }
+
+const Container = tw.div`
+w-full
+h-12
+flex
+flex-row
+justify-between
+items-center
+bg-slate-50/50
+`;
 
 export default Header;

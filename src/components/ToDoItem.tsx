@@ -4,39 +4,6 @@ import { useDrag } from "react-dnd";
 import tw from "tailwind-styled-components";
 import { ItoDoItem } from "./ToDo";
 
-const Container = tw.div<ContainerProps>`
-w-auto
-h-12
-m-2
-p-2
-rounded-lg
-text-center
-flex
-flex-row
-items-center
-justify-between
-bg-slate-400
-shadow-md
-group
-${(p) => (p.$isDragging ? 0.5 : 1)}
-`;
-
-const ToDoText = tw.p`
-font-medium
-text-lg
-w-11/12
-overflow-clip
-overflow-ellipsis
-`;
-
-const DeleteButton = tw.button`
-text-xs
-hidden
-group-hover:block
-stroke-slate-700/70
-hover:stroke-red-700/70
-`;
-
 interface ToDoItemProps {
   text: string;
   type: string;
@@ -99,5 +66,38 @@ export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
     </Container>
   );
 });
+
+const Container = tw.div<ContainerProps>`
+w-auto
+h-12
+m-2
+p-2
+rounded-lg
+text-center
+flex
+flex-row
+items-center
+justify-between
+bg-slate-400
+shadow-md
+group
+${(p) => (p.$isDragging ? 0.5 : 1)}
+`;
+
+const ToDoText = tw.p`
+font-medium
+text-lg
+w-11/12
+overflow-clip
+overflow-ellipsis
+`;
+
+const DeleteButton = tw.button`
+text-xs
+hidden
+group-hover:block
+stroke-slate-700/70
+hover:stroke-red-700/70
+`;
 
 export default ToDoItem;

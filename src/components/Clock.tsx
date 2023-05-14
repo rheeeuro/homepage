@@ -1,24 +1,6 @@
 import { useState } from "react";
 import tw from "tailwind-styled-components";
 
-const Container = tw.div`
-w-1/5
-flex
-flex-row
-items-center
-text-center
-`;
-
-const DateText = tw.h2`
-mx-5
-font-medium
-`;
-
-const TimeText = tw.h2`
-text-xl
-font-extrabold
-`;
-
 export function Clock() {
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
@@ -54,5 +36,23 @@ export function Clock() {
     </Container>
   );
 }
+
+const Container = tw.div`
+w-1/5
+flex
+flex-row
+items-center
+text-center
+`;
+
+const DateText = tw.h2`
+mx-5
+font-medium
+`;
+
+const TimeText = tw.h2`
+text-xl
+font-extrabold
+`;
 
 export default Clock;

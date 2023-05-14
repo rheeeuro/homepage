@@ -1,20 +1,5 @@
 import tw from "tailwind-styled-components";
 
-const ThemeButtonContainer = tw.div`
-w-1/5
-flex
-flex-row
-justify-end
-`;
-
-const ClearButton = tw.button`
-mr-5
-`;
-
-const ThemeButton = tw.button`
-mr-8
-`;
-
 export function Theme() {
   const clearHistory = () => {
     window.location.href = "chrome://settings/clearBrowserData";
@@ -43,5 +28,20 @@ export function Theme() {
     </ThemeButtonContainer>
   );
 }
+
+const ThemeButtonContainer = tw.div`
+w-1/5
+flex
+flex-row
+justify-end
+`;
+
+const ClearButton = tw.button`
+mr-5
+`;
+
+const ThemeButton = tw.button`
+mr-8
+`;
 
 export default Theme;

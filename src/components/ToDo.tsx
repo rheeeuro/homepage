@@ -3,16 +3,6 @@ import ToDoColumn from "./ToDoColumn";
 import ToDoItem from "./ToDoItem";
 import { useEffect, useState } from "react";
 
-const Container = tw.div`
-pt-8
-w-full
-h-2/3
-flex
-flex-row
-justify-around
-mb-24
-`;
-
 const TODO_COLUMN = ["To Do", "In Progress", "Done"];
 
 export interface ItoDoItem {
@@ -64,5 +54,15 @@ export function ToDo() {
     </Container>
   );
 }
+
+const Container = tw.div`
+pt-8
+w-full
+h-2/3
+flex
+flex-row
+justify-around
+mb-24
+`;
 
 export default ToDo;

@@ -1,30 +1,6 @@
 import { useForm } from "react-hook-form";
 import tw from "tailwind-styled-components";
 
-const SearchContainer = tw.form`
-w-1/5
-relative
-flex
-flex-row
-items-center
-`;
-
-const SearchInput = tw.input`
-absoulte
-w-full
-h-8
-pl-3
-pr-8
-shadow-md
-rounded-md
-bg-white-200
-`;
-
-const SearchButton = tw.button`
-absolute
-right-2
-`;
-
 interface SearchProps {
   search: string;
 }
@@ -61,5 +37,29 @@ export function Search() {
     </SearchContainer>
   );
 }
+
+const SearchContainer = tw.form`
+w-1/5
+relative
+flex
+flex-row
+items-center
+`;
+
+const SearchInput = tw.input`
+absoulte
+w-full
+h-8
+pl-3
+pr-8
+shadow-md
+rounded-md
+bg-white-200
+`;
+
+const SearchButton = tw.button`
+absolute
+right-2
+`;
 
 export default Search;

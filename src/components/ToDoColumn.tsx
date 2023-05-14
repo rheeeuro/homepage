@@ -4,85 +4,6 @@ import tw from "tailwind-styled-components";
 import { ItoDoItem } from "./ToDo";
 import { useForm } from "react-hook-form";
 
-const Container = tw.div`
-w-1/4
-flex
-flex-col
-items-center
-rounded-xl
-py-3
-px-1
-bg-blue-100/[0.8]
-shadow-xl
-`;
-
-const Items = tw.div`
-w-full
-h-full
-overflow-y-scroll
-`;
-
-const TitleContainer = tw.div`
-w-full
-h-10
-flex
-flex-col
-justify-center
-items-center
-relative
-mb-3
-`;
-
-const Title = tw.h2`
-font-semibold
-text-xl
-w-full
-text-center
-`;
-
-const NewButton = tw.button`
-absolute
-right-3
-font-light
-text-xs
-text-gray-500
-hover:text-gray-700
-`;
-
-const NewText = tw.form`
-absolute
-w-11/12
-h-full
-flex
-flex-row
-items-center
-`;
-
-const NewInput = tw.input`
-absolute
-w-full
-h-8
-pr-11
-pl-2
-rounded-md
-shadow-sm
-`;
-
-const NewInputButton = tw.div`
-absolute
-right-2
-flex
-flex-row
-justify-center
-`;
-
-const NewCancelButton = tw.button`
-mr-1
-`;
-
-const NewConfirmButton = tw.button`
-`;
-
 interface ToDoColumnProps {
   title: string;
   setToDoItems: React.Dispatch<React.SetStateAction<ItoDoItem[]>>;
@@ -218,5 +139,84 @@ export function ToDoColumn({
     </Container>
   );
 }
+
+const Container = tw.div`
+w-1/4
+flex
+flex-col
+items-center
+rounded-xl
+py-3
+px-1
+bg-blue-100/[0.8]
+shadow-xl
+`;
+
+const Items = tw.div`
+w-full
+h-full
+overflow-y-scroll
+`;
+
+const TitleContainer = tw.div`
+w-full
+h-10
+flex
+flex-col
+justify-center
+items-center
+relative
+mb-3
+`;
+
+const Title = tw.h2`
+font-semibold
+text-xl
+w-full
+text-center
+`;
+
+const NewButton = tw.button`
+absolute
+right-3
+font-light
+text-xs
+text-gray-500
+hover:text-gray-700
+`;
+
+const NewText = tw.form`
+absolute
+w-11/12
+h-full
+flex
+flex-row
+items-center
+`;
+
+const NewInput = tw.input`
+absolute
+w-full
+h-8
+pr-11
+pl-2
+rounded-md
+shadow-sm
+`;
+
+const NewInputButton = tw.div`
+absolute
+right-2
+flex
+flex-row
+justify-center
+`;
+
+const NewCancelButton = tw.button`
+mr-1
+`;
+
+const NewConfirmButton = tw.button`
+`;
 
 export default ToDoColumn;
