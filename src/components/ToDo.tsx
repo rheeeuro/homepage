@@ -58,10 +58,13 @@ export function ToDo() {
 const Container = tw.div`
 pt-8
 w-full
-h-2/3
-flex
-flex-row
-justify-around
+hidden
+md:flex
+md:flex-col
+lg:flex-row
+md:justify-around
+md:items-center
+md:space-y-3
 mb-24
 `;
 

@@ -141,7 +141,8 @@ export function ToDoColumn({
 }
 
 const Container = tw.div`
-w-1/4
+w-72
+h-[28rem]
 flex
 flex-col
 items-center

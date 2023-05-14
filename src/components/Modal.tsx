@@ -38,10 +38,10 @@ export function Modal({
       <ModalForm onSubmit={handleSubmit(onValid, onInValid)} autoComplete="off">
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>
-          {registerProps.map((registerProp) => (
+          {registerProps.map((registerProp, index) => (
             <ModalInputRow key={registerProp.name}>
               <h1>{registerProp.name.toUpperCase()}</h1>
-              <ModalInput {...registerProp} autoFocus />
+              <ModalInput {...registerProp} autoFocus={index === 0} />
             </ModalInputRow>
           ))}
         </ModalContent>
@@ -118,9 +118,10 @@ p-4
 `;
 
 const ModalInput = tw.input`
+ring-slate-600
 shadow-md
 rounded-sm
-w-72
+w-64
 `;
 
 const ModalCancelButton = tw.button`

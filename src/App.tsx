@@ -23,7 +23,6 @@ function App() {
 }
 
 const Container = tw.div`
-h-screen
 w-screen
 m-0
 flex
@@ -33,8 +32,8 @@ relative
 `;
 
 const Content = tw.div`
-w-[80rem]
-h-5/6
+max-w-[44rem]
+lg:max-w-[80rem]
 `;
 
 export default App;

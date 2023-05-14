@@ -18,7 +18,8 @@ w-full
 h-12
 flex
 flex-row
-justify-between
+justify-center
+md:justify-between
 items-center
 bg-slate-50/50
 `;

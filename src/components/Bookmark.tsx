@@ -123,6 +123,7 @@ p-5
 h-1/6
 flex
 flex-row
+flex-wrap
 justify-center
 items-center
 `;

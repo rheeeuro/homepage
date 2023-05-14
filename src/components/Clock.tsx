@@ -38,19 +38,20 @@ export function Clock() {
 }
 
 const Container = tw.div`
-w-1/5
-flex
-flex-row
-items-center
+w-52
+hidden
+md:flex
+md:flex-row
+md:items-center
 text-center
 `;
 
-const DateText = tw.h2`
+const DateText = tw.h1`
 mx-5
 font-medium
 `;
 
-const TimeText = tw.h2`
+const TimeText = tw.h1`
 text-xl
 font-extrabold
 `;

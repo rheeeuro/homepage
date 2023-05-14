@@ -16,6 +16,7 @@ export function Search() {
     <SearchContainer onSubmit={handleSubmit(onValid)} autoComplete="off">
       <SearchInput
         {...register("search", { required: true })}
+        autoFocus
         placeholder="Google search.."
       />
       <SearchButton type="submit">
@@ -39,7 +40,7 @@ export function Search() {
 }
 
 const SearchContainer = tw.form`
-w-1/5
+w-96
 relative
 flex
 flex-row
@@ -50,10 +51,10 @@ const SearchInput = tw.input`
 absoulte
 w-full
 h-8
-pl-3
+pl-4
 pr-8
 shadow-md
-rounded-md
+rounded-3xl
 bg-white-200
 `;
 

@@ -10,7 +10,7 @@ bottom-2
 right-4
 text-xs
 font-normal
-text-gray-300
+text-gray-300/30
 `;
 
 export default Footer;
