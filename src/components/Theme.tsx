@@ -1,30 +1,95 @@
+import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
+import Modal from "./Modal";
+import { FieldErrors, useForm } from "react-hook-form";
+
+export interface ThemeProps {
+  bgUrl: string;
+}
 
 export function Theme() {
-  const clearHistory = () => {
-    window.location.href = "chrome://settings/clearBrowserData";
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ThemeProps>();
+  const [bgUrl, setBgUrl] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const storageBgUrl = localStorage.getItem("bgUrl");
+    if (storageBgUrl) {
+      setBgUrl(storageBgUrl);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (bgUrl.startsWith("https://")) {
+      localStorage.setItem("bgUrl", bgUrl);
+      document.body.style.backgroundImage = `url('${bgUrl}')`;
+    }
+  }, [bgUrl]);
+
+  const closeModal = () => {
+    reset();
+    setModalOpen(false);
   };
+
+  const onValid = (data: ThemeProps) => {
+    setBgUrl(data.bgUrl);
+    closeModal();
+  };
+
+  const onInValid = (errors: FieldErrors) => {
+    console.log(errors);
+  };
+
+  useEffect(() => {
+    function refreshBgUrl() {
+      const newBgUrl = localStorage.getItem("bgUrl");
+      if (newBgUrl) {
+        setBgUrl(newBgUrl);
+      }
+    }
+    refreshBgUrl();
+    window.addEventListener("storage", refreshBgUrl);
+    return () => {
+      window.removeEventListener("storage", refreshBgUrl);
+    };
+  }, []);
 
   return (
     <ThemeButtonContainer>
-      <ClearButton onClick={clearHistory}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-          />
-        </svg>
-      </ClearButton>
-
-      <ThemeButton>THEME</ThemeButton>
+      <ThemeButton
+        onClick={() => {
+          setModalOpen(true);
+        }}
+      >
+        THEME
+      </ThemeButton>
+      <Modal
+        title={"Change Theme"}
+        open={modalOpen}
+        closeModal={closeModal}
+        handleSubmit={handleSubmit}
+        onValid={onValid}
+        onInValid={onInValid}
+        registerProps={[
+          {
+            defaultValue: bgUrl,
+            ...register("bgUrl", {
+              required: true,
+              validate: {
+                validUrl: (value) =>
+                  value.startsWith("https://") || "bgUrl is not valid",
+                sameUrl: (value) => value !== bgUrl || "same bgUrl",
+              },
+            }),
+          },
+        ]}
+        errors={errors}
+      />
     </ThemeButtonContainer>
   );
 }
@@ -34,10 +99,6 @@ w-1/5
 flex
 flex-row
 justify-end
-`;
-
-const ClearButton = tw.button`
-mr-5
 `;
 
 const ThemeButton = tw.button`

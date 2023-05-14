@@ -6,23 +6,8 @@ import Bookmark from "./components/Bookmark";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import ToDo from "./components/ToDo";
-import { useEffect } from "react";
 
 function App() {
-  useEffect(() => {
-    function checkBgData() {
-      const bgUrl = localStorage.getItem("bgUrl");
-      if (bgUrl) {
-        document.body.style.backgroundImage = `url('${bgUrl}')`;
-      }
-    }
-    checkBgData();
-    window.addEventListener("storage", checkBgData);
-    return () => {
-      window.removeEventListener("storage", checkBgData);
-    };
-  }, []);
-
   return (
     <Container>
       <Header />

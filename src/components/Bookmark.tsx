@@ -93,12 +93,12 @@ export function Bookmark() {
         </PlusContainer>
       )}
       <Modal
+        title={"New Bookmark"}
         open={modalOpen}
         closeModal={closeModal}
         handleSubmit={handleSubmit}
         onValid={onValid}
         onInValid={onInValid}
-        register={register}
         registerProps={[
           { ...register("title", { required: true }) },
           {

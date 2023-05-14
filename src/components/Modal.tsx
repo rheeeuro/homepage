@@ -1,31 +1,26 @@
 import ReactModal from "react-modal";
 import tw from "tailwind-styled-components";
-import { NewBookmarkProps } from "./Bookmark";
-import {
-  FieldErrors,
-  UseFormHandleSubmit,
-  UseFormRegister,
-} from "react-hook-form";
+import { FieldErrors, UseFormHandleSubmit } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
 interface ModalProps {
+  title: string;
   open: boolean;
   closeModal: () => void;
-  handleSubmit: UseFormHandleSubmit<NewBookmarkProps>;
-  onValid: (data: NewBookmarkProps) => void;
+  handleSubmit: UseFormHandleSubmit<any>;
+  onValid: (data: any) => void;
   onInValid: (errors: FieldErrors) => void;
-  register: UseFormRegister<NewBookmarkProps>;
   registerProps: any[];
-  errors: FieldErrors<NewBookmarkProps>;
+  errors: FieldErrors<any>;
 }
 
 export function Modal({
+  title,
   open,
   closeModal,
   handleSubmit,
   onValid,
   onInValid,
-  register,
   registerProps,
   errors,
 }: ModalProps) {
@@ -41,7 +36,7 @@ export function Modal({
     >
       <ModalCancelButton onClick={closeModal}>X</ModalCancelButton>
       <ModalForm onSubmit={handleSubmit(onValid, onInValid)} autoComplete="off">
-        <ModalTitle>New Bookmark</ModalTitle>
+        <ModalTitle>{title}</ModalTitle>
         <ModalContent>
           {registerProps.map((registerProp) => (
             <ModalInputRow key={registerProp.name}>
@@ -52,13 +47,15 @@ export function Modal({
         </ModalContent>
         <ModalButtonRow>
           <div>
-            <ErrorMessage
-              errors={errors}
-              name="url"
-              render={({ message }) => <p>{message}</p>}
-            />
+            {["url", "bgUrl"].map((error) => (
+              <ErrorMessage
+                errors={errors}
+                name={error}
+                render={({ message }) => <p>{message}</p>}
+              />
+            ))}
           </div>
-          <ModalCreateButton type="submit">CREATE</ModalCreateButton>
+          <ModalCreateButton type="submit">CONFIRM</ModalCreateButton>
         </ModalButtonRow>
       </ModalForm>
     </ModalContainer>
@@ -72,7 +69,7 @@ left-1/2
 -translate-x-1/2
 -translate-y-1/2
 w-96
-h-48
+min-h-48
 m-auto
 outline-none
 rounded-xl
@@ -100,7 +97,7 @@ font-medium
 
 const ModalContent = tw.div`
 w-full
-h-24
+min-h-24
 flex
 flex-col
 p-2
