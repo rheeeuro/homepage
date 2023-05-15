@@ -73,6 +73,7 @@ export const Container = tw.div`
 w-24
 h-24
 m-5
+p-3
 flex
 flex-col
 justify-center
@@ -94,9 +95,13 @@ bg-center
 `;
 
 const Title = tw.h1`
+w-full
 font-normal
 text-sm
+text-center
 text-[#383c40]
+overflow-clip
+overflow-ellipsis
 `;
 
 const DeleteButton = tw.button`
