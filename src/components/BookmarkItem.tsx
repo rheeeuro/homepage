@@ -1,17 +1,104 @@
 import tw from "tailwind-styled-components";
 import { IBookmarkItem } from "./Bookmark";
+import { useRef } from "react";
+import { XYCoord, useDrag, useDrop } from "react-dnd";
+import { Identifier } from "typescript";
 
 interface BookmarkItemProps {
+  index: number;
   title: string;
   url: string;
   setBookmarkItems: React.Dispatch<React.SetStateAction<IBookmarkItem[]>>;
+  moveBookmark: (dragIndex: number, hoverIndex: number) => void;
+}
+
+interface DragItem {
+  index: number;
+  title: string;
+  type: string;
 }
 
 export function BookmarkItem({
+  index,
   title,
   url,
   setBookmarkItems,
+  moveBookmark,
 }: BookmarkItemProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [{ handlerId }, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
+    accept: "bookmarks",
+    collect(monitor: any) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
+    hover(item: DragItem, monitor: any) {
+      if (!ref.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
+
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+
+      // Get vertical middle
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+
+      // Get pixels to the top
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+
+      // Dragging downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+
+      // Dragging upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      // Time to actually perform the action
+      moveBookmark(dragIndex, hoverIndex);
+
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      item.index = hoverIndex;
+    },
+  });
+
+  const [{ isDragging }, drag] = useDrag({
+    type: "bookmarks",
+    item: () => {
+      return { title, index };
+    },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  drag(drop(ref));
+
   const linkToBookmark = () => {
     window.location.href = url;
   };
@@ -48,7 +135,12 @@ export function BookmarkItem({
   };
 
   return (
-    <Container onClick={linkToBookmark}>
+    <Container
+      onClick={linkToBookmark}
+      ref={ref}
+      data-handler-id={handlerId}
+      style={{ opacity: isDragging ? 0 : 1 }}
+    >
       <FaviconContainer>
         <FaviconImage style={{ backgroundImage: `url(${getFaviconUrl()})` }} />
       </FaviconContainer>

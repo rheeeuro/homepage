@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components";
+import update from "immutability-helper";
 import BookmarkItem from "./BookmarkItem";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Container as BookmarkContainer } from "./BookmarkItem";
 import { FieldErrors, useForm } from "react-hook-form";
 import Modal from "./Modal";
@@ -48,7 +49,10 @@ export function Bookmark() {
 
   const onValid = (data: NewBookmarkProps) => {
     setBookmarkItems((prev) => {
-      const newOne = [...prev, { title: data.title, url: data.url }];
+      const newOne = [
+        ...prev,
+        { title: data.title, url: data.url, index: bookmarkItems.length + 1 },
+      ];
       localStorage.setItem("bookmarks", JSON.stringify(newOne));
       return newOne;
     });
@@ -59,16 +63,38 @@ export function Bookmark() {
     console.log(errors);
   };
 
+  const moveBookmark = useCallback((dragIndex: number, hoverIndex: number) => {
+    setBookmarkItems((prevBookmarks: IBookmarkItem[]) => {
+      const newOne = update(prevBookmarks, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevBookmarks[dragIndex] as IBookmarkItem],
+        ],
+      });
+      localStorage.setItem("bookmarks", JSON.stringify(newOne));
+      return newOne;
+    });
+  }, []);
+
+  const renderBookmark = useCallback(
+    (bookmark: IBookmarkItem, index: number) => {
+      return (
+        <BookmarkItem
+          key={bookmark.title}
+          index={index}
+          title={bookmark.title}
+          url={bookmark.url}
+          setBookmarkItems={setBookmarkItems}
+          moveBookmark={moveBookmark}
+        />
+      );
+    },
+    []
+  );
+
   return (
     <Container>
-      {bookmarkItems.map((item, index) => (
-        <BookmarkItem
-          key={index}
-          title={item.title}
-          url={item.url}
-          setBookmarkItems={setBookmarkItems}
-        />
-      ))}
+      {bookmarkItems.map((item, index) => renderBookmark(item, index))}
       {bookmarkItems.length < BOOKMARK_MAXNUM && (
         <PlusContainer
           onClick={() => {
