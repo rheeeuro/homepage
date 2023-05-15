@@ -43,7 +43,8 @@ export function BookmarkItem({
       rootUrl = hostname.slice(0, hostname.lastIndexOf("/"));
     }
 
-    return `https://${rootUrl}/favicon.ico`;
+    return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${rootUrl}&size=32`;
+    // return `https://${rootUrl}/favicon.ico`;
   };
 
   return (
