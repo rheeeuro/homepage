@@ -32,8 +32,8 @@ relative
 `;
 
 const Content = tw.div`
-max-w-[44rem]
-lg:max-w-[80rem]
+w-[44rem]
+lg:w-[80rem]
 `;
 
 export default App;

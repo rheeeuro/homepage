@@ -65,6 +65,7 @@ lg:flex-row
 md:justify-around
 md:items-center
 md:space-y-3
+lg:space-x-0
 mb-14
 `;
 
