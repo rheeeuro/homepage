@@ -87,7 +87,7 @@ ${(p) => (p.$isDragging ? 0.5 : 1)}
 const ToDoText = tw.p`
 font-normal
 text-sm
-text-[#3c4043]
+text-[#383c40]
 w-11/12
 overflow-clip
 overflow-ellipsis

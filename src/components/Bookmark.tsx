@@ -100,13 +100,14 @@ export function Bookmark() {
         onValid={onValid}
         onInValid={onInValid}
         registerProps={[
-          { ...register("title", { required: true }) },
+          { ...register("title", { required: "Title is required" }) },
           {
             ...register("url", {
-              required: true,
+              required: "URL is required",
               validate: {
                 validUrl: (value) =>
-                  value.startsWith("https://") || "URL is not valid",
+                  value.startsWith("https://") ||
+                  "URL should begin with [ 'https://' ]",
               },
             }),
           },

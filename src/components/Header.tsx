@@ -21,7 +21,7 @@ flex-row
 justify-center
 md:justify-between
 items-center
-bg-slate-50/50
+bg-slate-50/20
 `;
 
 export default Header;

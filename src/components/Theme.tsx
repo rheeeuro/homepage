@@ -77,11 +77,12 @@ export function Theme() {
           {
             defaultValue: bgUrl,
             ...register("bgUrl", {
-              required: true,
+              required: "bgUrl is required",
               validate: {
                 validUrl: (value) =>
-                  value.startsWith("https://") || "bgUrl is not valid",
-                sameUrl: (value) => value !== bgUrl || "same bgUrl",
+                  value.startsWith("https://") ||
+                  "bgUrl should begin with [ 'https://' ]",
+                sameUrl: (value) => value !== bgUrl || "same bgUrl as before",
               },
             }),
           },
@@ -102,7 +103,7 @@ md:justify-end
 
 const ThemeButton = tw.button`
 mr-8
-stroke-slate-500
+stroke-slate-600
 hover:stroke-slate-900
 `;
 

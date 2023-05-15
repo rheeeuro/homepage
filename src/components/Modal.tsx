@@ -24,10 +24,27 @@ export function Modal({
   registerProps,
   errors,
 }: ModalProps) {
+  console.log(errors);
+  const getFirstErrorMessage = () => {
+    for (const registerProp of registerProps) {
+      if (errors.hasOwnProperty(registerProp.name)) {
+        return (
+          <ErrorMessage
+            errors={errors}
+            name={registerProp.name}
+            render={({ message }) => <p>{message}</p>}
+          />
+        );
+      }
+    }
+  };
+
   return (
     <ModalContainer
       isOpen={open}
       ariaHideApp={false}
+      onRequestClose={closeModal}
+      shouldCloseOnEsc
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.6)",
@@ -46,15 +63,7 @@ export function Modal({
           ))}
         </ModalContent>
         <ModalButtonRow>
-          <div>
-            {["url", "bgUrl"].map((error) => (
-              <ErrorMessage
-                errors={errors}
-                name={error}
-                render={({ message }) => <p>{message}</p>}
-              />
-            ))}
-          </div>
+          <div>{getFirstErrorMessage()}</div>
           <ModalCreateButton type="submit">CONFIRM</ModalCreateButton>
         </ModalButtonRow>
       </ModalForm>
@@ -100,7 +109,8 @@ w-full
 min-h-24
 flex
 flex-col
-p-2
+px-2
+py-8
 border-y-2
 border-gray-800/5
 `;
