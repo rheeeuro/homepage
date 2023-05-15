@@ -1,10 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 html,
 body {
   width: 100vw;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
   margin: 0;
   box-sizing: border-box;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  font-family: "Roboto", sans-serif;
 }
 body {
   -webkit-user-select: none;
@@ -29,7 +32,6 @@ div::-webkit-scrollbar-track {
 
 h2 {
   font-weight: bold;
-  font-family: Helvetica;
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
     0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),

@@ -45,20 +45,6 @@ export function Theme() {
     console.log(errors);
   };
 
-  useEffect(() => {
-    function refreshBgUrl() {
-      const newBgUrl = localStorage.getItem("bgUrl");
-      if (newBgUrl) {
-        setBgUrl(newBgUrl);
-      }
-    }
-    refreshBgUrl();
-    window.addEventListener("storage", refreshBgUrl);
-    return () => {
-      window.removeEventListener("storage", refreshBgUrl);
-    };
-  }, []);
-
   return (
     <ThemeButtonContainer>
       <ThemeButton

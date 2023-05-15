@@ -5,7 +5,7 @@ export function Footer() {
 }
 
 const Container = tw.div`
-absolute
+fixed
 bottom-2
 right-4
 text-xs

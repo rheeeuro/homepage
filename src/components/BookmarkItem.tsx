@@ -94,6 +94,9 @@ bg-center
 `;
 
 const Title = tw.h1`
+font-normal
+text-sm
+text-[#3c4043]
 `;
 
 const DeleteButton = tw.button`
