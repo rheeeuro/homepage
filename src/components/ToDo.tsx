@@ -65,7 +65,7 @@ lg:flex-row
 md:justify-around
 md:items-center
 md:space-y-3
-mb-24
+mb-14
 `;
 
 export default ToDo;

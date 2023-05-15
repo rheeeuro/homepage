@@ -15,7 +15,7 @@ export interface NewBookmarkProps {
   url: string;
 }
 
-const BOOKMARK_MAXNUM = 8;
+const BOOKMARK_MAXNUM = 16;
 
 export function Bookmark() {
   const {
@@ -120,7 +120,8 @@ export function Bookmark() {
 
 const Container = tw.div`
 w-full
-p-5
+px-10
+py-5
 h-1/6
 flex
 flex-row
