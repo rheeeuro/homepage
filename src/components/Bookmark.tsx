@@ -1,7 +1,7 @@
 import tw from "tailwind-styled-components";
 import BookmarkItem from "./BookmarkItem";
 import { useEffect, useState } from "react";
-import { Container as PlusContainer } from "./BookmarkItem";
+import { Container as BookmarkContainer } from "./BookmarkItem";
 import { FieldErrors, useForm } from "react-hook-form";
 import Modal from "./Modal";
 
@@ -128,6 +128,10 @@ flex-row
 flex-wrap
 justify-center
 items-center
+`;
+
+const PlusContainer = tw(BookmarkContainer)`
+hover:text-green-700
 `;
 
 export default Bookmark;

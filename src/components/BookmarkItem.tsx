@@ -48,7 +48,9 @@ export function BookmarkItem({
 
   return (
     <Container onClick={linkToBookmark}>
-      <FaviconImage style={{ backgroundImage: `url(${getFaviconUrl()})` }} />
+      <FaviconContainer>
+        <FaviconImage style={{ backgroundImage: `url(${getFaviconUrl()})` }} />
+      </FaviconContainer>
       <DeleteButton onClick={deleteBookmark}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +66,9 @@ export function BookmarkItem({
           />
         </svg>
       </DeleteButton>
-      <Title>{title}</Title>
+      <TitleContainer>
+        <Title>{title}</Title>
+      </TitleContainer>
     </Container>
   );
 }
@@ -73,7 +77,7 @@ export const Container = tw.div`
 w-24
 h-24
 m-5
-p-3
+p-2
 flex
 flex-col
 justify-center
@@ -85,13 +89,28 @@ group
 bg-slate-300/70
 `;
 
+const FaviconContainer = tw.div`
+w-full
+h-12
+mb-1
+flex
+justify-center
+items-center
+`;
+
 const FaviconImage = tw.div`
 w-8
 h-8
-mb-2
 bg-cover
 bg-no-repeat
 bg-center
+`;
+
+const TitleContainer = tw.div`
+w-full
+flex
+justify-center
+items-center
 `;
 
 const Title = tw.h1`
@@ -102,6 +121,8 @@ text-center
 text-[#383c40]
 overflow-clip
 overflow-ellipsis
+break-words
+line-clamp-2
 `;
 
 const DeleteButton = tw.button`

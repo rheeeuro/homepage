@@ -24,7 +24,6 @@ export function Modal({
   registerProps,
   errors,
 }: ModalProps) {
-  console.log(errors);
   const getFirstErrorMessage = () => {
     for (const registerProp of registerProps) {
       if (errors.hasOwnProperty(registerProp.name)) {
