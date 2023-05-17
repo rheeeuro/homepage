@@ -79,6 +79,7 @@ flex-row
 items-center
 justify-between
 bg-slate-400
+dark:bg-slate-600
 shadow-md
 group
 ${(p) => (p.$isDragging ? 0.5 : 1)}
@@ -88,6 +89,7 @@ const ToDoText = tw.p`
 font-normal
 text-sm
 text-[#383c40]
+dark:text-slate-100
 w-11/12
 overflow-clip
 overflow-ellipsis
@@ -98,7 +100,9 @@ text-xs
 hidden
 group-hover:block
 stroke-slate-700/70
+dark:stroke-slate-400/70
 hover:stroke-red-700/70
+dark:hover:stroke-red-400/70
 `;
 
 export default ToDoItem;

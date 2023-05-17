@@ -158,6 +158,9 @@ items-center
 
 const PlusContainer = tw(BookmarkContainer)`
 hover:text-green-700
+text-slate-900
+dark:text-slate-100
+dark:hover:text-green-500
 `;
 
 export default Bookmark;

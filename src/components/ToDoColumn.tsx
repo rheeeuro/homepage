@@ -161,7 +161,8 @@ items-center
 rounded-xl
 py-3
 px-1
-bg-blue-100/[0.8]
+bg-blue-100/80
+dark:bg-sky-950/80
 shadow-xl
 `;
 
@@ -187,6 +188,8 @@ font-semibold
 text-xl
 w-full
 text-center
+text-slate-900
+dark:text-slate-100
 `;
 
 const NewButton = tw.button`
@@ -196,6 +199,8 @@ font-light
 text-xs
 stroke-green-700/30
 hover:stroke-green-700
+dark:stroke-green-600/30
+dark:hover:stroke-green-600
 `;
 
 const NewText = tw.form`

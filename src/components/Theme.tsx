@@ -14,22 +14,43 @@ export function Theme() {
     reset,
     formState: { errors },
   } = useForm<ThemeProps>();
+  const [dark, setDark] = useState<boolean>(false);
   const [bgUrl, setBgUrl] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const storageBgUrl = localStorage.getItem("bgUrl");
+    const storageBgUrl = localStorage.getItem("background-url");
+    const storageDark = localStorage.getItem("dark");
     if (storageBgUrl) {
       setBgUrl(storageBgUrl);
+    }
+    if (storageDark) {
+      setDark(storageDark === "true");
     }
   }, []);
 
   useEffect(() => {
     if (bgUrl.startsWith("https://")) {
-      localStorage.setItem("bgUrl", bgUrl);
+      localStorage.setItem("background-url", bgUrl);
       document.body.style.backgroundImage = `url('${bgUrl}')`;
     }
   }, [bgUrl]);
+
+  useEffect(() => {
+    if (dark) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [dark]);
+
+  const toggleDark = () => {
+    setDark((prev) => {
+      const newOne = !prev;
+      localStorage.setItem("dark", newOne.toString());
+      return newOne;
+    });
+  };
 
   const closeModal = () => {
     reset();
@@ -47,6 +68,37 @@ export function Theme() {
 
   return (
     <ThemeButtonContainer>
+      <DarkmodeButton onClick={toggleDark}>
+        {dark ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+            />
+          </svg>
+        )}
+      </DarkmodeButton>
       <ThemeButton
         onClick={() => {
           setModalOpen(true);
@@ -101,10 +153,20 @@ md:flex-row
 md:justify-end
 `;
 
+const DarkmodeButton = tw.button`
+mr-5
+stroke-slate-900
+dark:stroke-slate-100
+hover:stroke-slate-600
+dark:hover:stroke-slate-400
+`;
+
 const ThemeButton = tw.button`
 mr-8
-stroke-slate-600
-hover:stroke-slate-900
+stroke-slate-900
+dark:stroke-slate-100
+hover:stroke-slate-600
+dark:hover:stroke-slate-400
 `;
 
 export default Theme;

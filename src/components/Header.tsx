@@ -22,6 +22,7 @@ justify-center
 md:justify-between
 items-center
 bg-slate-50/20
+dark:bg-slate-800/20
 `;
 
 export default Header;

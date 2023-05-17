@@ -14,16 +14,16 @@ export function ToDo() {
   const [toDoItems, setToDoItems] = useState<ItoDoItem[]>([]);
 
   useEffect(() => {
-    function checkData() {
+    function refreshToDos() {
       const todosJson = localStorage.getItem("todos");
       if (todosJson) {
         setToDoItems(JSON.parse(todosJson));
       }
     }
-    checkData();
-    window.addEventListener("storage", checkData);
+    refreshToDos();
+    window.addEventListener("storage", refreshToDos);
     return () => {
-      window.removeEventListener("storage", checkData);
+      window.removeEventListener("storage", refreshToDos);
     };
   }, []);
 

@@ -180,6 +180,7 @@ cursor-pointer
 relative
 group
 bg-slate-300/70
+dark:bg-slate-800/70
 `;
 
 const FaviconContainer = tw.div`
@@ -212,6 +213,7 @@ font-normal
 text-sm
 text-center
 text-[#383c40]
+dark:text-slate-100
 overflow-clip
 overflow-ellipsis
 break-words
@@ -229,7 +231,9 @@ right-2
 hidden
 group-hover:flex
 stroke-slate-700/70
+dark:stroke-slate-400/70
 hover:stroke-red-700/70
+dark:hover:stroke-red-400/70
 `;
 
 export default BookmarkItem;
