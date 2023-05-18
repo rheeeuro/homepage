@@ -162,8 +162,6 @@ justify-center
 items-center
 stroke-slate-900
 dark:stroke-slate-100
-hover:stroke-slate-700
-dark:hover:stroke-slate-300
 hover:bg-slate-900/10
 rounded-full
 `;
@@ -177,8 +175,6 @@ justify-center
 items-center
 stroke-slate-900
 dark:stroke-slate-100
-hover:stroke-slate-600
-dark:hover:stroke-slate-400
 hover:bg-slate-900/10
 rounded-full
 `;
