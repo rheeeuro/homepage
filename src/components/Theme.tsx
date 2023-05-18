@@ -155,18 +155,32 @@ md:justify-end
 
 const DarkmodeButton = tw.button`
 mr-5
+w-10
+h-10
+flex
+justify-center
+items-center
 stroke-slate-900
 dark:stroke-slate-100
-hover:stroke-slate-600
-dark:hover:stroke-slate-400
+hover:stroke-slate-700
+dark:hover:stroke-slate-300
+hover:bg-slate-900/10
+rounded-full
 `;
 
 const ThemeButton = tw.button`
 mr-8
+w-10
+h-10
+flex
+justify-center
+items-center
 stroke-slate-900
 dark:stroke-slate-100
 hover:stroke-slate-600
 dark:hover:stroke-slate-400
+hover:bg-slate-900/10
+rounded-full
 `;
 
 export default Theme;

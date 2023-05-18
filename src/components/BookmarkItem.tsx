@@ -180,7 +180,9 @@ cursor-pointer
 relative
 group
 bg-slate-300/70
+hover:bg-slate-400/70
 dark:bg-slate-800/70
+dark:hover:bg-slate-700/70
 `;
 
 const FaviconContainer = tw.div`
@@ -226,13 +228,14 @@ justify-center
 items-center
 w-4
 h-4
+rounded-full
 top-2
 right-2
 hidden
 group-hover:flex
 stroke-slate-700/70
-dark:stroke-slate-400/70
 hover:stroke-red-700/70
+dark:stroke-slate-400/70
 dark:hover:stroke-red-400/70
 `;
 
