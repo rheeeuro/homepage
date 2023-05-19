@@ -2,6 +2,7 @@ import ReactModal from "react-modal";
 import tw from "tailwind-styled-components";
 import { FieldErrors, UseFormHandleSubmit } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 interface ModalProps {
   title: string;
@@ -50,7 +51,9 @@ export function Modal({
         },
       }}
     >
-      <ModalCancelButton onClick={closeModal}>X</ModalCancelButton>
+      <ModalCancelButton onClick={closeModal}>
+        <XMarkIcon className="w-5 h-5" />
+      </ModalCancelButton>
       <ModalForm onSubmit={handleSubmit(onValid, onInValid)} autoComplete="off">
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>
@@ -139,6 +142,11 @@ top-2
 right-2
 w-8
 h-8
+flex
+items-center
+justify-center
+rounded-full
+hover:bg-slate-600/20
 `;
 
 const ModalButtonRow = tw.div`

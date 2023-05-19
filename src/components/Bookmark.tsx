@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Container as BookmarkContainer } from "./BookmarkItem";
 import { FieldErrors, useForm } from "react-hook-form";
 import Modal from "./Modal";
+import { refreshItems } from "../util/localstorage";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 export interface IBookmarkItem {
   title: string;
@@ -29,12 +31,7 @@ export function Bookmark() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    function refreshBookmarkItems() {
-      const bookmarkJson = localStorage.getItem("bookmarks");
-      if (bookmarkJson) {
-        setBookmarkItems(JSON.parse(bookmarkJson));
-      }
-    }
+    const refreshBookmarkItems = refreshItems("bookmarks", setBookmarkItems);
     refreshBookmarkItems();
     window.addEventListener("storage", refreshBookmarkItems);
     return () => {
@@ -101,20 +98,7 @@ export function Bookmark() {
             setModalOpen(true);
           }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-10 h-10 p-2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
+          <PlusIcon className="w-10 h-10 p-2" />
           <h1>Add</h1>
         </PlusContainer>
       )}

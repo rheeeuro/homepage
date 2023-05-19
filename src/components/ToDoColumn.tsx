@@ -3,11 +3,11 @@ import { useDrop } from "react-dnd";
 import tw from "tailwind-styled-components";
 import { ItoDoItem } from "./ToDo";
 import { useForm } from "react-hook-form";
+import { CheckIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 interface ToDoColumnProps {
   title: string;
   setToDoItems: React.Dispatch<React.SetStateAction<ItoDoItem[]>>;
-  toDoItems: ItoDoItem[];
   children: ReactNode;
 }
 
@@ -19,12 +19,7 @@ interface NewToDoFormProps {
   text: string;
 }
 
-export function ToDoColumn({
-  title,
-  setToDoItems,
-  toDoItems,
-  children,
-}: ToDoColumnProps) {
+export function ToDoColumn({ title, setToDoItems, children }: ToDoColumnProps) {
   const { register, handleSubmit, reset } = useForm<NewToDoFormProps>();
   const [adding, setAdding] = useState<boolean>(false);
   const [{ isOver }, drop] = useDrop(
@@ -86,19 +81,7 @@ export function ToDoColumn({
               setAdding(true);
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6v12m6-6H6"
-              />
-            </svg>
+            <PlusIcon className="w-6 h-6" stroke={undefined} />
           </NewButton>
         )}
         {adding && (
@@ -110,36 +93,10 @@ export function ToDoColumn({
             />
             <NewInputButton>
               <NewCancelButton type="button" onClick={closeInput}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="red"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <XMarkIcon stroke="red" className="w-4 h-4" />
               </NewCancelButton>
               <NewConfirmButton type="submit">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="green"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4.5 12.75l6 6 9-13.5"
-                  />
-                </svg>
+                <CheckIcon stroke="green" className="w-4 h-4" />
               </NewConfirmButton>
             </NewInputButton>
           </NewText>

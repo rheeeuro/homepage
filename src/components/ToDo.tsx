@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import ToDoColumn from "./ToDoColumn";
 import ToDoItem from "./ToDoItem";
 import { useEffect, useState } from "react";
+import { refreshItems } from "../util/localstorage";
 
 const TODO_COLUMN = ["To Do", "In Progress", "Done"];
 
@@ -14,16 +15,11 @@ export function ToDo() {
   const [toDoItems, setToDoItems] = useState<ItoDoItem[]>([]);
 
   useEffect(() => {
-    function refreshToDos() {
-      const todosJson = localStorage.getItem("todos");
-      if (todosJson) {
-        setToDoItems(JSON.parse(todosJson));
-      }
-    }
-    refreshToDos();
-    window.addEventListener("storage", refreshToDos);
+    const refreshToDoItems = refreshItems("todos", setToDoItems);
+    refreshToDoItems();
+    window.addEventListener("storage", refreshToDoItems);
     return () => {
-      window.removeEventListener("storage", refreshToDos);
+      window.removeEventListener("storage", refreshToDoItems);
     };
   }, []);
 
@@ -31,12 +27,7 @@ export function ToDo() {
     <Container>
       {TODO_COLUMN.map((title, index) => {
         return (
-          <ToDoColumn
-            key={index}
-            title={title}
-            setToDoItems={setToDoItems}
-            toDoItems={toDoItems}
-          >
+          <ToDoColumn key={index} title={title} setToDoItems={setToDoItems}>
             {toDoItems
               .filter((item) => item.column === title)
               .map((item, index) => (
@@ -45,7 +36,6 @@ export function ToDo() {
                   text={item.text}
                   type={"todo"}
                   setToDoItems={setToDoItems}
-                  toDoItems={toDoItems}
                 />
               ))}
           </ToDoColumn>

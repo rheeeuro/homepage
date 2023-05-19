@@ -3,6 +3,7 @@ import { IBookmarkItem } from "./Bookmark";
 import { useRef } from "react";
 import { XYCoord, useDrag, useDrop } from "react-dnd";
 import { Identifier } from "typescript";
+import { BookmarkSlashIcon } from "@heroicons/react/24/outline";
 
 interface BookmarkItemProps {
   index: number;
@@ -145,19 +146,7 @@ export function BookmarkItem({
         <FaviconImage style={{ backgroundImage: `url(${getFaviconUrl()})` }} />
       </FaviconContainer>
       <DeleteButton onClick={deleteBookmark}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          className="w-4 h-4"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3 3l1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 011.743-1.342 48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664L19.5 19.5"
-          />
-        </svg>
+        <BookmarkSlashIcon className="w-4 h-4" />
       </DeleteButton>
       <TitleContainer>
         <Title>{title}</Title>
@@ -233,10 +222,10 @@ top-2
 right-2
 hidden
 group-hover:flex
-stroke-slate-700/70
-hover:stroke-red-700/70
-dark:stroke-slate-400/70
-dark:hover:stroke-red-400/70
+text-slate-700/70
+hover:text-red-700/70
+dark:text-slate-400/70
+dark:hover:text-red-400/70
 `;
 
 export default BookmarkItem;
