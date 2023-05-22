@@ -121,6 +121,7 @@ px-1
 bg-blue-100/80
 dark:bg-sky-950/80
 shadow-xl
+transition-colors
 `;
 
 const Items = tw.div`
@@ -147,6 +148,7 @@ w-full
 text-center
 text-slate-900
 dark:text-slate-100
+transition-colors
 `;
 
 const NewButton = tw.button`
@@ -177,6 +179,7 @@ pr-11
 pl-2
 rounded-md
 shadow-sm
+transition-colors
 `;
 
 const NewInputButton = tw.div`

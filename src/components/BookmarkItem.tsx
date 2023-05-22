@@ -1,7 +1,7 @@
 import tw from "tailwind-styled-components";
 import { IBookmarkItem } from "./Bookmark";
 import { useRef } from "react";
-import { XYCoord, useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import { Identifier } from "typescript";
 import { BookmarkSlashIcon } from "@heroicons/react/24/outline";
 
@@ -39,51 +39,11 @@ export function BookmarkItem({
       };
     },
     hover(item: DragItem, monitor: any) {
-      if (!ref.current) {
-        return;
-      }
+      if (!ref.current) return;
       const dragIndex = item.index;
       const hoverIndex = index;
-
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
-
-      // Get pixels to the top
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      // Time to actually perform the action
+      if (dragIndex === hoverIndex) return;
       moveBookmark(dragIndex, hoverIndex);
-
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
       item.index = hoverIndex;
     },
   });
@@ -170,6 +130,7 @@ relative
 group
 bg-slate-300/70
 hover:bg-slate-400/70
+transition-all
 dark:bg-slate-800/70
 dark:hover:bg-slate-700/70
 `;
@@ -209,6 +170,7 @@ overflow-clip
 overflow-ellipsis
 break-words
 line-clamp-2
+transition-colors
 `;
 
 const DeleteButton = tw.button`

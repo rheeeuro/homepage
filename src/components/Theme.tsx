@@ -3,6 +3,7 @@ import tw from "tailwind-styled-components";
 import Modal from "./Modal";
 import { FieldErrors, useForm } from "react-hook-form";
 import { SunIcon, MoonIcon, PaintBrushIcon } from "@heroicons/react/24/outline";
+import { AnimatePresence, motion } from "framer-motion";
 
 export interface ThemeProps {
   bgUrl: string;
@@ -69,13 +70,18 @@ export function Theme() {
 
   return (
     <ThemeButtonContainer>
-      <DarkmodeButton onClick={toggleDark}>
-        {dark ? (
-          <SunIcon className="w-6 h-6" />
-        ) : (
-          <MoonIcon className="w-6 h-6" />
-        )}
-      </DarkmodeButton>
+      <AnimatePresence mode="wait">
+        <DarkmodeButton
+          onClick={toggleDark}
+          key={dark ? "dark" : "light"}
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 20, opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {dark ? <SunButton /> : <MoonButton />}
+        </DarkmodeButton>
+      </AnimatePresence>
       <ThemeButton
         onClick={() => {
           setModalOpen(true);
@@ -118,7 +124,7 @@ md:flex-row
 md:justify-end
 `;
 
-const DarkmodeButton = tw.button`
+const DarkmodeButton = tw(motion.button)`
 mr-5
 w-10
 h-10
@@ -129,6 +135,21 @@ text-slate-900
 dark:text-slate-100
 hover:bg-slate-900/10
 rounded-full
+group
+`;
+
+const SunButton = tw(SunIcon)`
+w-6
+h-6
+text-orange-300
+group-hover:text-orange-200
+`;
+
+const MoonButton = tw(MoonIcon)`
+w-6
+h-6
+text-purple-800
+group-hover:text-purple-000
 `;
 
 const ThemeButton = tw.button`

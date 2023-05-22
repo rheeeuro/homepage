@@ -7,6 +7,7 @@ import { FieldErrors, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import { refreshItems } from "../util/localstorage";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
 
 export interface IBookmarkItem {
   title: string;
@@ -90,7 +91,7 @@ export function Bookmark() {
   );
 
   return (
-    <Container>
+    <Container variants={containerVariants} initial="from" animate="to">
       {bookmarkItems.map((item, index) => renderBookmark(item, index))}
       {bookmarkItems.length < BOOKMARK_MAXNUM && (
         <PlusContainer
@@ -128,7 +129,7 @@ export function Bookmark() {
   );
 }
 
-const Container = tw.div`
+const Container = tw(motion.div)`
 w-full
 px-10
 py-5
@@ -145,6 +146,12 @@ hover:text-green-700
 text-slate-900
 dark:text-slate-100
 dark:hover:text-green-500
+transition-colors
 `;
+
+const containerVariants = {
+  from: { opacity: 0 },
+  to: { opacity: 1, transition: { delay: 0.1 } },
+};
 
 export default Bookmark;

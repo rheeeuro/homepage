@@ -70,6 +70,7 @@ dark:bg-slate-600
 shadow-md
 group
 ${(p) => (p.$isDragging ? 0.5 : 1)}
+transition-colors
 `;
 
 const ToDoText = tw.p`
@@ -80,6 +81,7 @@ dark:text-slate-100
 w-11/12
 overflow-clip
 overflow-ellipsis
+transition-colors
 `;
 
 const DeleteButton = tw.button`
@@ -90,6 +92,7 @@ text-slate-700/70
 dark:text-slate-400/70
 hover:text-red-700/70
 dark:hover:text-red-400/70
+transition-colors
 `;
 
 export default ToDoItem;

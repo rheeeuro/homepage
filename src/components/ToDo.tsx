@@ -3,6 +3,7 @@ import ToDoColumn from "./ToDoColumn";
 import ToDoItem from "./ToDoItem";
 import { useEffect, useState } from "react";
 import { refreshItems } from "../util/localstorage";
+import { motion } from "framer-motion";
 
 const TODO_COLUMN = ["To Do", "In Progress", "Done"];
 
@@ -24,7 +25,7 @@ export function ToDo() {
   }, []);
 
   return (
-    <Container>
+    <Container variants={containerVariants} initial="from" animate="to">
       {TODO_COLUMN.map((title, index) => {
         return (
           <ToDoColumn key={index} title={title} setToDoItems={setToDoItems}>
@@ -45,7 +46,7 @@ export function ToDo() {
   );
 }
 
-const Container = tw.div`
+const Container = tw(motion.div)`
 pt-8
 w-full
 hidden
@@ -58,5 +59,10 @@ md:space-y-3
 lg:space-x-0
 mb-14
 `;
+
+const containerVariants = {
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+};
 
 export default ToDo;

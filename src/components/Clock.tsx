@@ -52,6 +52,7 @@ md:items-center
 text-center
 text-slate-900
 dark:text-slate-100
+transition-colors
 `;
 
 const DateText = tw.h1`
