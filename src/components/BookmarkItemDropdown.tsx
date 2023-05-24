@@ -1,8 +1,9 @@
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import tw from "tailwind-styled-components";
 
 interface BookmarkItemDropdownProps {
-  modifyBookmark: () => void;
-  deleteBookmark: () => void;
+  modifyBookmark: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  deleteBookmark: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export function BookmarkItemDropdown({
@@ -11,8 +12,14 @@ export function BookmarkItemDropdown({
 }: BookmarkItemDropdownProps) {
   return (
     <Container>
-      <Button>Modify</Button>
-      <Button>Delete</Button>
+      <Button onClick={modifyBookmark}>
+        <PencilIcon className="w-3 h-3" />
+        <h1>Modify</h1>
+      </Button>
+      <Button onClick={deleteBookmark}>
+        <TrashIcon className="w-3 h-3" />
+        <h1>Delete</h1>
+      </Button>
     </Container>
   );
 }
@@ -38,6 +45,10 @@ rounded-md
 const Button = tw.button`
 w-full
 h-1/2
+flex
+justify-center
+items-center
+space-x-2
 text-md
 text-slate-700
 dark:text-slate-100

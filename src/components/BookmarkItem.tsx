@@ -1,12 +1,9 @@
 import tw from "tailwind-styled-components";
 import { IBookmarkItem } from "./Bookmark";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Identifier } from "typescript";
-import {
-  BookmarkSlashIcon,
-  EllipsisVerticalIcon,
-} from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import BookmarkItemDropdown from "./BookmarkItemDropdown";
 
 interface BookmarkItemProps {
@@ -52,7 +49,6 @@ export function BookmarkItem({
       item.index = hoverIndex;
     },
   });
-
   const [{ isDragging }, drag] = useDrag({
     type: "bookmarks",
     item: () => {
@@ -62,6 +58,12 @@ export function BookmarkItem({
       isDragging: monitor.isDragging(),
     }),
   });
+
+  useEffect(() => {
+    if (isDragging) {
+      setOpen(false);
+    }
+  }, [isDragging]);
 
   drag(drop(ref));
 
@@ -123,7 +125,7 @@ export function BookmarkItem({
         {open && (
           <BookmarkItemDropdown
             modifyBookmark={() => {}}
-            deleteBookmark={() => {}}
+            deleteBookmark={deleteBookmark}
           />
         )}
       </MenuButton>
@@ -192,7 +194,7 @@ line-clamp-2
 transition-colors
 `;
 
-const MenuButton = tw.button`
+const MenuButton = tw.div`
 absolute
 justify-center
 items-center
