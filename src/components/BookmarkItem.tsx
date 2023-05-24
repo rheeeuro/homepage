@@ -1,9 +1,13 @@
 import tw from "tailwind-styled-components";
 import { IBookmarkItem } from "./Bookmark";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Identifier } from "typescript";
-import { BookmarkSlashIcon } from "@heroicons/react/24/outline";
+import {
+  BookmarkSlashIcon,
+  EllipsisVerticalIcon,
+} from "@heroicons/react/24/outline";
+import BookmarkItemDropdown from "./BookmarkItemDropdown";
 
 interface BookmarkItemProps {
   index: number;
@@ -26,6 +30,7 @@ export function BookmarkItem({
   setBookmarkItems,
   moveBookmark,
 }: BookmarkItemProps) {
+  const [open, setOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -105,9 +110,23 @@ export function BookmarkItem({
       <FaviconContainer>
         <FaviconImage style={{ backgroundImage: `url(${getFaviconUrl()})` }} />
       </FaviconContainer>
-      <DeleteButton onClick={deleteBookmark}>
-        <BookmarkSlashIcon className="w-4 h-4" />
-      </DeleteButton>
+      <MenuButton
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen(true);
+        }}
+        onMouseLeave={() => {
+          setOpen(false);
+        }}
+      >
+        <EllipsisVerticalIcon className="w-4 h-4" />
+        {open && (
+          <BookmarkItemDropdown
+            modifyBookmark={() => {}}
+            deleteBookmark={() => {}}
+          />
+        )}
+      </MenuButton>
       <TitleContainer>
         <Title>{title}</Title>
       </TitleContainer>
@@ -129,10 +148,10 @@ cursor-pointer
 relative
 group
 bg-slate-300/70
-hover:bg-slate-400/70
+hover:bg-slate-300/90
 transition-all
 dark:bg-slate-800/70
-dark:hover:bg-slate-700/70
+dark:hover:bg-slate-800/90
 `;
 
 const FaviconContainer = tw.div`
@@ -173,21 +192,23 @@ line-clamp-2
 transition-colors
 `;
 
-const DeleteButton = tw.button`
+const MenuButton = tw.button`
 absolute
 justify-center
 items-center
-w-4
-h-4
+w-6
+h-6
 rounded-full
-top-2
-right-2
+top-1
+right-1
 hidden
 group-hover:flex
 text-slate-700/70
-hover:text-red-700/70
+hover:text-slate-900/70
 dark:text-slate-400/70
-dark:hover:text-red-400/70
+dark:hover:text-slate-100/70
+hover:bg-slate-400/30
+dark:hover:bg-slate-900/30
 `;
 
 export default BookmarkItem;
