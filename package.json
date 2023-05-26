@@ -1,5 +1,5 @@
 {
-  "name": "homepage",
+  "name": "new-tab-page",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -36,7 +36,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://rheeeuro.github.io/homepage/",
+  "homepage": "https://rheeeuro.github.io/new-tab-page/",
   "eslintConfig": {
     "extends": [
       "react-app",
