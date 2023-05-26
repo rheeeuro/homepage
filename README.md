@@ -15,7 +15,7 @@
 
 ### 1. Install Chrome Extension - [New Tab Redirect](https://chrome.google.com/webstore/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna)
 
-### 2. Set Redirect URL - https://rheeeuro.github.io/homepage/
+### 2. Set Redirect URL - https://rheeeuro.github.io/new-tab-page/
 
 ![result](./img/01.png)
 
