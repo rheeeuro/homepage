@@ -117,6 +117,7 @@ export function Bookmark() {
           moveBookmark={moveBookmark}
           setSelected={setSelected}
           selected={selected}
+          bookmark={bookmark}
           setModalOpen={setModalOpen}
         />
       );
@@ -138,14 +139,17 @@ export function Bookmark() {
         </PlusContainer>
       )}
       <Modal
-        title={"New Bookmark"}
+        title={selected ? "Modify Bookmark" : "New Bookmark"}
         open={modalOpen}
         closeModal={closeModal}
         handleSubmit={handleSubmit}
         onValid={onValid}
         onInValid={onInValid}
         registerProps={[
-          { ...register("title", { required: "Title is required" }) },
+          {
+            ...register("title", { required: "Title is required" }),
+            defaultValue: selected?.title,
+          },
           {
             ...register("url", {
               required: "URL is required",
@@ -155,6 +159,7 @@ export function Bookmark() {
                   "URL should begin with [ 'https://' ]",
               },
             }),
+            defaultValue: selected?.url,
           },
         ]}
         errors={errors}

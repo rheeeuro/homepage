@@ -11,7 +11,8 @@ interface BookmarkItemProps {
   setBookmarkItems: React.Dispatch<React.SetStateAction<IBookmarkItem[]>>;
   moveBookmark: (dragIndex: number, hoverIndex: number) => void;
   setSelected: React.Dispatch<React.SetStateAction<IBookmarkItem | null>>;
-  selected: IBookmarkItem;
+  selected: IBookmarkItem | null;
+  bookmark: IBookmarkItem;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -27,6 +28,7 @@ export function BookmarkItem({
   moveBookmark,
   setSelected,
   selected,
+  bookmark,
   setModalOpen,
 }: BookmarkItemProps) {
   const [open, setOpen] = useState<boolean>(false);
@@ -54,7 +56,7 @@ export function BookmarkItem({
   const [{ isDragging }, drag] = useDrag({
     type: "bookmarks",
     item: () => {
-      return { title, index };
+      return { index };
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
@@ -70,14 +72,15 @@ export function BookmarkItem({
   drag(drop(ref));
 
   const linkToBookmark = () => {
-    window.location.href = selected.url;
+    window.location.href = bookmark.url;
   };
 
   const modifyBookmark = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
-    setSelected(selected);
+
+    setSelected(bookmark);
     setModalOpen(true);
   };
 
@@ -87,19 +90,19 @@ export function BookmarkItem({
     e.stopPropagation();
 
     const confirm = window.confirm(
-      `Are you sure you want to delete [${selected.title}]?`
+      `Are you sure you want to delete [${bookmark.title}]?`
     );
     if (!confirm) return;
 
     setBookmarkItems((prev) => {
-      const newOne = prev.filter((item) => item !== selected);
+      const newOne = prev.filter((item) => item !== bookmark);
       localStorage.setItem("bookmarks", JSON.stringify(newOne));
       return newOne;
     });
   };
 
   const getFaviconUrl = () => {
-    const [, hostname] = selected.url.split("https://");
+    const [, hostname] = bookmark.url.split("https://");
     const lastIndex = hostname.lastIndexOf("/");
     let rootUrl = hostname;
     if (lastIndex !== -1) {
@@ -138,7 +141,7 @@ export function BookmarkItem({
         )}
       </MenuButton>
       <TitleContainer>
-        <Title>{selected.title}</Title>
+        <Title>{bookmark.title}</Title>
       </TitleContainer>
     </Container>
   );
