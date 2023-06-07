@@ -10,11 +10,13 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 
 export interface IBookmarkItem {
+  id: string;
   title: string;
   url: string;
 }
 
 export interface NewBookmarkProps {
+  id: string;
   title: string;
   url: string;
 }
@@ -30,6 +32,7 @@ export function Bookmark() {
   } = useForm<NewBookmarkProps>();
   const [bookmarkItems, setBookmarkItems] = useState<IBookmarkItem[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [selected, setSelected] = useState<IBookmarkItem | null>(null);
 
   useEffect(() => {
     const refreshBookmarkItems = refreshItems("bookmarks", setBookmarkItems);
@@ -42,19 +45,49 @@ export function Bookmark() {
 
   const closeModal = () => {
     reset();
+    setSelected(null);
     setModalOpen(false);
   };
 
   const onValid = (data: NewBookmarkProps) => {
+    if (selected) {
+      modifyBookmark(data);
+    } else {
+      createBookmark(data);
+    }
+    closeModal();
+  };
+
+  const modifyBookmark = (data: NewBookmarkProps) => {
+    setBookmarkItems((prev) => {
+      const newOne = prev.map((bookmark) => {
+        if (bookmark.id === data.id) {
+          return {
+            ...bookmark,
+            title: data.title,
+            url: data.url,
+          };
+        }
+        return bookmark;
+      });
+      localStorage.setItem("bookmarks", JSON.stringify(newOne));
+      return newOne;
+    });
+  };
+
+  const createBookmark = (data: NewBookmarkProps) => {
     setBookmarkItems((prev) => {
       const newOne = [
         ...prev,
-        { title: data.title, url: data.url, index: bookmarkItems.length + 1 },
+        {
+          id: new Date().valueOf().toString(),
+          title: data.title,
+          url: data.url,
+        },
       ];
       localStorage.setItem("bookmarks", JSON.stringify(newOne));
       return newOne;
     });
-    closeModal();
   };
 
   const onInValid = (errors: FieldErrors) => {
@@ -80,10 +113,11 @@ export function Bookmark() {
         <BookmarkItem
           key={bookmark.title}
           index={index}
-          title={bookmark.title}
-          url={bookmark.url}
           setBookmarkItems={setBookmarkItems}
           moveBookmark={moveBookmark}
+          setSelected={setSelected}
+          selected={selected}
+          setModalOpen={setModalOpen}
         />
       );
     },

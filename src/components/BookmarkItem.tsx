@@ -8,10 +8,11 @@ import BookmarkItemDropdown from "./BookmarkItemDropdown";
 
 interface BookmarkItemProps {
   index: number;
-  title: string;
-  url: string;
   setBookmarkItems: React.Dispatch<React.SetStateAction<IBookmarkItem[]>>;
   moveBookmark: (dragIndex: number, hoverIndex: number) => void;
+  setSelected: React.Dispatch<React.SetStateAction<IBookmarkItem | null>>;
+  selected: IBookmarkItem;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface DragItem {
@@ -22,10 +23,11 @@ interface DragItem {
 
 export function BookmarkItem({
   index,
-  title,
-  url,
   setBookmarkItems,
   moveBookmark,
+  setSelected,
+  selected,
+  setModalOpen,
 }: BookmarkItemProps) {
   const [open, setOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -68,7 +70,15 @@ export function BookmarkItem({
   drag(drop(ref));
 
   const linkToBookmark = () => {
-    window.location.href = url;
+    window.location.href = selected.url;
+  };
+
+  const modifyBookmark = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setSelected(selected);
+    setModalOpen(true);
   };
 
   const deleteBookmark = (
@@ -77,21 +87,19 @@ export function BookmarkItem({
     e.stopPropagation();
 
     const confirm = window.confirm(
-      `Are you sure you want to delete [${title}]?`
+      `Are you sure you want to delete [${selected.title}]?`
     );
     if (!confirm) return;
 
     setBookmarkItems((prev) => {
-      const newOne = prev.filter(
-        (item) => item.title !== title && item.url !== url
-      );
+      const newOne = prev.filter((item) => item !== selected);
       localStorage.setItem("bookmarks", JSON.stringify(newOne));
       return newOne;
     });
   };
 
   const getFaviconUrl = () => {
-    const [, hostname] = url.split("https://");
+    const [, hostname] = selected.url.split("https://");
     const lastIndex = hostname.lastIndexOf("/");
     let rootUrl = hostname;
     if (lastIndex !== -1) {
@@ -124,13 +132,13 @@ export function BookmarkItem({
         <EllipsisVerticalIcon className="w-4 h-4" />
         {open && (
           <BookmarkItemDropdown
-            modifyBookmark={() => {}}
+            modifyBookmark={modifyBookmark}
             deleteBookmark={deleteBookmark}
           />
         )}
       </MenuButton>
       <TitleContainer>
-        <Title>{title}</Title>
+        <Title>{selected.title}</Title>
       </TitleContainer>
     </Container>
   );
