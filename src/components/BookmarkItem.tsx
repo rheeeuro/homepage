@@ -1,12 +1,12 @@
 import tw from "tailwind-styled-components";
-import { IBookmarkItem, NewBookmarkProps } from "./Bookmark";
+import { IBookmarkItem } from "./Bookmark";
 import { useEffect, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Identifier } from "typescript";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import BookmarkItemDropdown from "./BookmarkItemDropdown";
 import Modal from "./Modal";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 
 interface BookmarkItemProps {
   index: number;
@@ -30,9 +30,10 @@ export function BookmarkItem({
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
-  } = useForm<NewBookmarkProps>();
+  } = useForm<IBookmarkItem>();
   const [open, setOpen] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -75,14 +76,46 @@ export function BookmarkItem({
   drag(drop(ref));
 
   const linkToBookmark = () => {
+    if (open || modalOpen) return;
     window.location.href = bookmark.url;
+  };
+
+  const closeModal = () => {
+    reset();
+    setModalOpen(false);
   };
 
   const modifyBookmark = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
+    setValue("id", bookmark.id);
+    setValue("title", bookmark.title);
+    setValue("url", bookmark.url);
     setModalOpen(true);
+  };
+
+  const onValid = (data: IBookmarkItem) => {
+    setBookmarkItems((prev) => {
+      const newOne = prev.map((item) => {
+        if (item.id === data.id) {
+          return {
+            ...item,
+            title: data.title,
+            url: data.url,
+          };
+        } else {
+          return item;
+        }
+      });
+      localStorage.setItem("bookmarks", JSON.stringify(newOne));
+      return newOne;
+    });
+    closeModal();
+  };
+
+  const onInValid = (errors: FieldErrors) => {
+    console.log(errors);
   };
 
   const deleteBookmark = (
@@ -112,23 +145,6 @@ export function BookmarkItem({
 
     return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${rootUrl}&size=32`;
     // return `https://${rootUrl}/favicon.ico`;
-  };
-
-  const modifyBookmark = (data: NewBookmarkProps) => {
-    setBookmarkItems((prev) => {
-      const newOne = prev.map((bookmark) => {
-        if (bookmark.id === data.id) {
-          return {
-            ...bookmark,
-            title: data.title,
-            url: data.url,
-          };
-        }
-        return bookmark;
-      });
-      localStorage.setItem("bookmarks", JSON.stringify(newOne));
-      return newOne;
-    });
   };
 
   return (

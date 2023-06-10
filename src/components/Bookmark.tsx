@@ -88,7 +88,6 @@ export function Bookmark() {
           setBookmarkItems={setBookmarkItems}
           moveBookmark={moveBookmark}
           bookmark={bookmark}
-          setModalOpen={setModalOpen}
         />
       );
     },
