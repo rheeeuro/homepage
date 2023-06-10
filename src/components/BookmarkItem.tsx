@@ -1,19 +1,18 @@
 import tw from "tailwind-styled-components";
-import { IBookmarkItem } from "./Bookmark";
+import { IBookmarkItem, NewBookmarkProps } from "./Bookmark";
 import { useEffect, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Identifier } from "typescript";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import BookmarkItemDropdown from "./BookmarkItemDropdown";
+import Modal from "./Modal";
+import { useForm } from "react-hook-form";
 
 interface BookmarkItemProps {
   index: number;
   setBookmarkItems: React.Dispatch<React.SetStateAction<IBookmarkItem[]>>;
   moveBookmark: (dragIndex: number, hoverIndex: number) => void;
-  setSelected: React.Dispatch<React.SetStateAction<IBookmarkItem | null>>;
-  selected: IBookmarkItem | null;
   bookmark: IBookmarkItem;
-  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface DragItem {
@@ -26,12 +25,16 @@ export function BookmarkItem({
   index,
   setBookmarkItems,
   moveBookmark,
-  setSelected,
-  selected,
   bookmark,
-  setModalOpen,
 }: BookmarkItemProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<NewBookmarkProps>();
   const [open, setOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -79,8 +82,6 @@ export function BookmarkItem({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
-
-    setSelected(bookmark);
     setModalOpen(true);
   };
 
@@ -113,6 +114,23 @@ export function BookmarkItem({
     // return `https://${rootUrl}/favicon.ico`;
   };
 
+  const modifyBookmark = (data: NewBookmarkProps) => {
+    setBookmarkItems((prev) => {
+      const newOne = prev.map((bookmark) => {
+        if (bookmark.id === data.id) {
+          return {
+            ...bookmark,
+            title: data.title,
+            url: data.url,
+          };
+        }
+        return bookmark;
+      });
+      localStorage.setItem("bookmarks", JSON.stringify(newOne));
+      return newOne;
+    });
+  };
+
   return (
     <Container
       onClick={linkToBookmark}
@@ -143,6 +161,32 @@ export function BookmarkItem({
       <TitleContainer>
         <Title>{bookmark.title}</Title>
       </TitleContainer>
+      <Modal
+        title={"Modify Bookmark"}
+        open={modalOpen}
+        closeModal={closeModal}
+        handleSubmit={handleSubmit}
+        onValid={onValid}
+        onInValid={onInValid}
+        registerProps={[
+          {
+            ...register("title", { required: "Title is required" }),
+            defaultValue: bookmark.title,
+          },
+          {
+            ...register("url", {
+              required: "URL is required",
+              validate: {
+                validUrl: (value) =>
+                  value.startsWith("https://") ||
+                  "URL should begin with [ 'https://' ]",
+              },
+            }),
+            defaultValue: bookmark.url,
+          },
+        ]}
+        errors={errors}
+      />
     </Container>
   );
 }

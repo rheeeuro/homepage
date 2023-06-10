@@ -16,7 +16,6 @@ export interface IBookmarkItem {
 }
 
 export interface NewBookmarkProps {
-  id: string;
   title: string;
   url: string;
 }
@@ -32,7 +31,6 @@ export function Bookmark() {
   } = useForm<NewBookmarkProps>();
   const [bookmarkItems, setBookmarkItems] = useState<IBookmarkItem[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<IBookmarkItem | null>(null);
 
   useEffect(() => {
     const refreshBookmarkItems = refreshItems("bookmarks", setBookmarkItems);
@@ -45,37 +43,10 @@ export function Bookmark() {
 
   const closeModal = () => {
     reset();
-    setSelected(null);
     setModalOpen(false);
   };
 
   const onValid = (data: NewBookmarkProps) => {
-    if (selected) {
-      modifyBookmark(data);
-    } else {
-      createBookmark(data);
-    }
-    closeModal();
-  };
-
-  const modifyBookmark = (data: NewBookmarkProps) => {
-    setBookmarkItems((prev) => {
-      const newOne = prev.map((bookmark) => {
-        if (bookmark.id === data.id) {
-          return {
-            ...bookmark,
-            title: data.title,
-            url: data.url,
-          };
-        }
-        return bookmark;
-      });
-      localStorage.setItem("bookmarks", JSON.stringify(newOne));
-      return newOne;
-    });
-  };
-
-  const createBookmark = (data: NewBookmarkProps) => {
     setBookmarkItems((prev) => {
       const newOne = [
         ...prev,
@@ -88,6 +59,7 @@ export function Bookmark() {
       localStorage.setItem("bookmarks", JSON.stringify(newOne));
       return newOne;
     });
+    closeModal();
   };
 
   const onInValid = (errors: FieldErrors) => {
@@ -115,8 +87,6 @@ export function Bookmark() {
           index={index}
           setBookmarkItems={setBookmarkItems}
           moveBookmark={moveBookmark}
-          setSelected={setSelected}
-          selected={selected}
           bookmark={bookmark}
           setModalOpen={setModalOpen}
         />
@@ -139,7 +109,7 @@ export function Bookmark() {
         </PlusContainer>
       )}
       <Modal
-        title={selected ? "Modify Bookmark" : "New Bookmark"}
+        title={"New Bookmark"}
         open={modalOpen}
         closeModal={closeModal}
         handleSubmit={handleSubmit}
@@ -148,7 +118,6 @@ export function Bookmark() {
         registerProps={[
           {
             ...register("title", { required: "Title is required" }),
-            defaultValue: selected?.title,
           },
           {
             ...register("url", {
@@ -159,7 +128,6 @@ export function Bookmark() {
                   "URL should begin with [ 'https://' ]",
               },
             }),
-            defaultValue: selected?.url,
           },
         ]}
         errors={errors}
