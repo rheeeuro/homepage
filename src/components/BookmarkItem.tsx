@@ -90,8 +90,6 @@ export function BookmarkItem({
   ) => {
     e.stopPropagation();
     setValue("id", bookmark.id);
-    setValue("title", bookmark.title);
-    setValue("url", bookmark.url);
     setModalOpen(true);
   };
 
