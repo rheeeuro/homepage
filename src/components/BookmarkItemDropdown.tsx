@@ -13,12 +13,12 @@ export function BookmarkItemDropdown({
   return (
     <Container>
       <Button onClick={modifyBookmark}>
-        <PencilIcon className="w-3 h-3" />
-        <h1>Modify</h1>
+        <CustomPencilIcon />
+        <Text>Modify</Text>
       </Button>
       <Button onClick={deleteBookmark}>
-        <TrashIcon className="w-3 h-3" />
-        <h1>Delete</h1>
+        <CustomTrashIcon />
+        <Text>Delete</Text>
       </Button>
     </Container>
   );
@@ -53,6 +53,19 @@ text-md
 text-slate-700
 dark:text-slate-100
 hover:bg-slate-700/30
+`;
+
+const CustomPencilIcon = tw(PencilIcon)`
+w-3
+h-3
+`;
+
+const CustomTrashIcon = tw(TrashIcon)`
+w-3
+h-3
+`;
+
+const Text = tw.h1`
 `;
 
 export default BookmarkItemDropdown;
