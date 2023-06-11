@@ -103,8 +103,8 @@ export function Bookmark() {
             setModalOpen(true);
           }}
         >
-          <PlusIcon className="w-10 h-10 p-2" />
-          <h1>Add</h1>
+          <CustomPlusIcon />
+          <AddText>Add</AddText>
         </PlusContainer>
       )}
       <Modal
@@ -153,6 +153,15 @@ text-slate-900
 dark:text-slate-100
 dark:hover:text-green-500
 transition-colors
+`;
+
+const CustomPlusIcon = tw(PlusIcon)`
+w-10
+h-10
+p-2
+`;
+
+const AddText = tw.h1`
 `;
 
 const containerVariants = {

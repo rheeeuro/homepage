@@ -52,7 +52,7 @@ export function Modal({
       }}
     >
       <ModalCancelButton onClick={closeModal}>
-        <XMarkIcon className="w-5 h-5" />
+        <CustomXMarkIcon />
       </ModalCancelButton>
       <ModalForm onSubmit={handleSubmit(onValid, onInValid)} autoComplete="off">
         <ModalTitle>{title}</ModalTitle>
@@ -151,6 +151,11 @@ items-center
 justify-center
 rounded-full
 hover:bg-slate-600/20
+`;
+
+const CustomXMarkIcon = tw(XMarkIcon)`
+w-5
+h-5
 `;
 
 const ModalButtonRow = tw.div`

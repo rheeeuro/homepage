@@ -15,6 +15,8 @@ export function Clock() {
     setTime(newTime);
   };
 
+  const formatText = (time: number) => String(time).padStart(2, "0");
+
   const getNow = () => {
     const now: Date = new Date();
 
@@ -26,10 +28,8 @@ export function Clock() {
     const hours = now.getHours();
 
     return [
-      `${month}/${date}`,
-      `${hours < 10 ? `0${hours}` : hours}:${
-        minutes < 10 ? `0${minutes}` : minutes
-      }`,
+      `${formatText(month)}/${formatText(date)}`,
+      `${formatText(hours)}:${formatText(minutes)}`,
     ];
   };
 
