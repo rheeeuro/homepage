@@ -81,7 +81,7 @@ export function ToDoColumn({ title, setToDoItems, children }: ToDoColumnProps) {
               setAdding(true);
             }}
           >
-            <PlusIcon className="w-6 h-6" stroke={undefined} />
+            <CustomPlusIcon />
           </NewButton>
         )}
         {adding && (
@@ -93,10 +93,10 @@ export function ToDoColumn({ title, setToDoItems, children }: ToDoColumnProps) {
             />
             <NewInputButton>
               <NewCancelButton type="button" onClick={closeInput}>
-                <XMarkIcon stroke="red" className="w-4 h-4" />
+                <CustomXMarkIcon />
               </NewCancelButton>
               <NewConfirmButton type="submit">
-                <CheckIcon stroke="green" className="w-4 h-4" />
+                <CustomCheckIcon />
               </NewConfirmButton>
             </NewInputButton>
           </NewText>
@@ -156,10 +156,15 @@ absolute
 right-3
 font-light
 text-xs
-stroke-green-700/30
-hover:stroke-green-700
-dark:stroke-green-600/30
-dark:hover:stroke-green-600
+text-green-700/30
+hover:text-green-700
+dark:text-green-600/30
+dark:hover:text-green-600
+`;
+
+const CustomPlusIcon = tw(PlusIcon)`
+w-6
+h-6
 `;
 
 const NewText = tw.form`
@@ -192,9 +197,21 @@ justify-center
 
 const NewCancelButton = tw.button`
 mr-1
+text-red-500
+`;
+
+const CustomXMarkIcon = tw(XMarkIcon)`
+w-4
+h-4
 `;
 
 const NewConfirmButton = tw.button`
+text-green-500
+`;
+
+const CustomCheckIcon = tw(CheckIcon)`
+w-4
+h-4
 `;
 
 export default ToDoColumn;

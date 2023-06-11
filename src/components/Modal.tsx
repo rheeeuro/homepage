@@ -58,14 +58,13 @@ export function Modal({
         <ModalTitle>{title}</ModalTitle>
         <ModalContent>
           {registerProps.map((registerProp, index) => {
-            if (registerProp.name !== "id") {
-              return (
-                <ModalInputRow key={registerProp.name}>
-                  <h1>{registerProp.name.toUpperCase()}</h1>
-                  <ModalInput {...registerProp} autoFocus={index === 0} />
-                </ModalInputRow>
-              );
-            } else return null;
+            if (registerProp.name === "id") return null;
+            return (
+              <ModalInputRow key={registerProp.name}>
+                <h1>{registerProp.name.toUpperCase()}</h1>
+                <ModalInput {...registerProp} autoFocus={index === 0} />
+              </ModalInputRow>
+            );
           })}
         </ModalContent>
         <ModalButtonRow>

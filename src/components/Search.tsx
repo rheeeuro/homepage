@@ -20,7 +20,7 @@ export function Search() {
         placeholder="Google search.."
       />
       <SearchButton type="submit">
-        <MagnifyingGlassIcon className="w-4 h-4" />
+        <CustomMagnifyingGlassIcon />
       </SearchButton>
     </SearchContainer>
   );
@@ -48,6 +48,11 @@ bg-white-200
 const SearchButton = tw.button`
 absolute
 right-2
+`;
+
+const CustomMagnifyingGlassIcon = tw(MagnifyingGlassIcon)`
+w-4
+h-4
 `;
 
 export default Search;

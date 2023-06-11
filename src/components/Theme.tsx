@@ -23,12 +23,8 @@ export function Theme() {
   useEffect(() => {
     const storageBgUrl = localStorage.getItem("background-url");
     const storageDark = localStorage.getItem("dark");
-    if (storageBgUrl) {
-      setBgUrl(storageBgUrl);
-    }
-    if (storageDark) {
-      setDark(storageDark === "true");
-    }
+    if (storageBgUrl) setBgUrl(storageBgUrl);
+    if (storageDark) setDark(storageDark === "true");
   }, []);
 
   useEffect(() => {
@@ -87,7 +83,7 @@ export function Theme() {
           setModalOpen(true);
         }}
       >
-        <PaintBrushIcon className="w-6 h-6" />
+        <CustomPaintBrushIcon />
       </ThemeButton>
       <Modal
         title={"Change Theme"}
@@ -163,6 +159,11 @@ text-slate-900
 dark:text-slate-100
 hover:bg-slate-900/10
 rounded-full
+`;
+
+const CustomPaintBrushIcon = tw(PaintBrushIcon)`
+w-6
+h-6
 `;
 
 export default Theme;

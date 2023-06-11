@@ -48,7 +48,7 @@ export const ToDoItem: FC<ToDoItemProps> = memo(function ToDoItem({
     <Container ref={drag} $isDragging={isDragging}>
       <ToDoText>{text}</ToDoText>
       <DeleteButton onClick={deleteToDo}>
-        <TrashIcon className="w-5 h-5" />
+        <CustomTrashIcon />
       </DeleteButton>
     </Container>
   );
@@ -93,6 +93,11 @@ dark:text-slate-400/70
 hover:text-red-700/70
 dark:hover:text-red-400/70
 transition-colors
+`;
+
+const CustomTrashIcon = tw(TrashIcon)`
+w-5
+h-5
 `;
 
 export default ToDoItem;
