@@ -1,7 +1,11 @@
 import tw from "tailwind-styled-components";
 
 export function Footer() {
-  return <Container>&copy; Copyright rheeeuro</Container>;
+  return (
+    <Container>
+      {"Copyright"} &copy; {`${new Date().getFullYear()} rheeeuro`}
+    </Container>
+  );
 }
 
 const Container = tw.div`
