@@ -16,7 +16,6 @@ export function Search() {
     <SearchContainer onSubmit={handleSubmit(onValid)} autoComplete="off">
       <SearchInput
         {...register("search", { required: true })}
-        autoFocus
         placeholder="Google search.."
       />
       <SearchButton type="submit">
