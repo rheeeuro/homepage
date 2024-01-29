@@ -14,6 +14,16 @@ export interface ItoDoItem {
 
 export function ToDo() {
   const [toDoItems, setToDoItems] = useState<ItoDoItem[]>([]);
+  const [showTodo, setShowTodo] = useState<boolean>(false);
+
+  useEffect(() => {
+    const refreshShowTodo = refreshItems("showTodo", setShowTodo);
+    refreshShowTodo();
+    window.addEventListener("storage", refreshShowTodo);
+    return () => {
+      window.removeEventListener("storage", refreshShowTodo);
+    };
+  }, []);
 
   useEffect(() => {
     const refreshToDoItems = refreshItems("todos", setToDoItems);
@@ -25,26 +35,37 @@ export function ToDo() {
   }, []);
 
   return (
-    <Container variants={containerVariants} initial="from" animate="to">
-      {TODO_COLUMN.map((title, index) => {
-        return (
-          <ToDoColumn key={index} title={title} setToDoItems={setToDoItems}>
-            {toDoItems
-              .filter((item) => item.column === title)
-              .map((item, index) => (
-                <ToDoItem
-                  key={index}
-                  text={item.text}
-                  type={"todo"}
-                  setToDoItems={setToDoItems}
-                />
-              ))}
-          </ToDoColumn>
-        );
-      })}
-    </Container>
+    <>
+      {showTodo ? (
+        <Container variants={containerVariants} initial="from" animate="to">
+          {TODO_COLUMN.map((title, index) => {
+            return (
+              <ToDoColumn key={index} title={title} setToDoItems={setToDoItems}>
+                {toDoItems
+                  .filter((item) => item.column === title)
+                  .map((item, index) => (
+                    <ToDoItem
+                      key={index}
+                      text={item.text}
+                      type={"todo"}
+                      setToDoItems={setToDoItems}
+                    />
+                  ))}
+              </ToDoColumn>
+            );
+          })}
+        </Container>
+      ) : (
+        <Blank />
+      )}
+    </>
   );
 }
+
+const Blank = tw.div`
+w-full
+h-[35rem]
+`;
 
 const Container = tw(motion.div)`
 pt-8
