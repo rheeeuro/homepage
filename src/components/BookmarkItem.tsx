@@ -134,7 +134,8 @@ export function BookmarkItem({
   };
 
   const getFaviconUrl = () => {
-    const [, hostname] = bookmark.url.split("https://");
+    const isHttps = bookmark.url.startsWith("https://");
+    const [, hostname] = isHttps ? bookmark.url.split("https://") : bookmark.url.split("http://");
     const lastIndex = hostname.lastIndexOf("/");
     let rootUrl = hostname;
     if (lastIndex !== -1) {
