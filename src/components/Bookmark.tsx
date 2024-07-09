@@ -124,6 +124,7 @@ export function Bookmark() {
               validate: {
                 validUrl: (value) =>
                   value.startsWith("https://") ||
+                  value.startsWith("http://") ||
                   "URL should begin with [ 'https://' ]",
               },
             }),
