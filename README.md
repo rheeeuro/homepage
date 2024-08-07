@@ -32,3 +32,5 @@
 ### 3. Check your background image changed
 
 ![result](./img/04.png)
+
+* If you want to hide the todo, set localStorage `showTodo: false`
